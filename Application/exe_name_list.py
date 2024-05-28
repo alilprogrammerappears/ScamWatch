@@ -33,7 +33,7 @@ EXE_NAME_LIST = {
 }
 
 
-
+# Listed programs:
 #   TeamViewer, AnyDesk, RemotePC, VNC Connect, SplashTop, Zoho Assist, ConnectWise, BeyondTrust, AnyViewer,
 #   DWService, Getscreen.me, Chrome Remote Desktop, Windows Remote Desktop, AnyViewer, RustDesk, Distand Desktop, AeroAdmin,
 #   Quick Assist, UltraVNC, Jump Desktop, Iperius Remote, LiteManager, DesktopNow, LogMeIn, ISL Online, Action1
