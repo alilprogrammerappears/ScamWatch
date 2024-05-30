@@ -41,11 +41,13 @@ def monitor_process():
 
 # temp notification window
 def show_warning():
-
     ctypes.windll.user32.MessageBoxW(
         0,
-        "WARNING! This may be a remote connection scam!",
-        "Don't worry, however, we have blocked this program and you are safe!",
-        1
+        "WARNING! This may be a remote connection scam!\nDon't worry, however, we have blocked this program and you are safe!",
+        "ScamWatch Alert",
+        0x40 | 0x1 | 0x40000  # MB_ICONWARNING | MB_OK | MB_TOPMOST
     )
+
+show_warning()
+
 
