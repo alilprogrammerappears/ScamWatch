@@ -6,6 +6,7 @@ import psutil
 import ctypes
 import time
 from exe_name_list import EXE_NAME_LIST
+from pause_manager import is_paused, set_pause
 
 
 # Check for process and return a Process object if found
@@ -32,12 +33,21 @@ def block_process(process):
 def monitor_process():
 
     while True:
-        for process_name in EXE_NAME_LIST:
-            processes = check_for_processes(process_name)
-            for process in processes:
-                block_process(process)
-        time.sleep(1)
+        if is_paused():
+                print("Monitoring paused.")
+                time.sleep(30)  # Pause for 30 seconds for testing (change to 1800 for 30 minutes)
+                set_pause(False)
+                print("Monitoring resumed.")
+        else:
+            for process_name in EXE_NAME_LIST:
+                processes = check_for_processes(process_name)
+                for process in processes:
+                    block_process(process)
+            time.sleep(1)
 
+# allow a short connection by pausing monitoring
+def one_time_connection():
+    set_pause(True)
 
 # temp notification window
 def show_warning():

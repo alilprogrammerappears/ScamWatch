@@ -1,14 +1,24 @@
 # This is the main executable for ScamWatch.
-
-from monitor_and_block import monitor_process
+import threading
+import time
+from monitor_and_block import monitor_process, one_time_connection
 
 def main():
 
     print("ScamWatch is running!")
 
     try:
-        # monitor and block RCA processes based on exe_name_list.py
-        monitor_process()
+       # Start monitoring in a separate thread
+        monitor_thread = threading.Thread(target=monitor_process)
+        monitor_thread.start()
+
+        # test triggering the one-time connection
+        time.sleep(5)  # Wait for 5 seconds before pausing for testing purposes
+        print("Pausing monitoring for one-time connection.")
+        one_time_connection()
+
+        # Wait for the monitoring thread to complete (it will run indefinitely)
+        monitor_thread.join()
 
     # this may be temporary
     except KeyboardInterrupt:
