@@ -1,7 +1,5 @@
 import psutil
 import smtplib
-import tkinter as tk  # or
-import subprocess
 
 #scapy - Capture network packets and analyze them to identify remote connection attempts
 def capture_packets():
