@@ -17,30 +17,3 @@ def monitor_network():
 #subprocess - to block connections based on the identified unauthorized attempts
 def block_ip(ip_address):
     subprocess.call(['iptables', '-A', 'INPUT', '-s', ip_address, '-j', 'DROP'])
-
-#Email Notification
-
-def send_email_notification(to_email, subject, message):
-    from_email = 'your_email@example.com'
-    password = 'your_password'
-    server = smtplib.SMTP('smtp.example.com', 587)
-    server.starttls()
-    server.login(from_email, password)
-    email_message = f'Subject: {subject}\n\n{message}'
-    server.sendmail(from_email, to_email, email_message)
-    server.quit()
-
-#sms notifictaion
-
-def send_sms_notification(to_number, message):
-    account_sid = 'your_account_sid'
-    auth_token = 'your_auth_token'
-    client = Client(account_sid, auth_token)
-    client.messages.create(body=message, from_='+1234567890', to=to_number)
-
-#desktop Notification
-
-def desktop_notification(message):
-    root = tk.Tk()
-    root.withdraw()
-    tk.messagebox.showinfo("Alert", message)
