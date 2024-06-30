@@ -2,12 +2,17 @@
 import threading
 import time
 from monitor_and_block import monitor_process, one_time_connection
+from network_blocking import block_suspicious_connections
 
 def main():
 
     print("ScamWatch is running!")
 
     try:
+
+        # Block suspicious network connections initially
+        block_suspicious_connections()
+        
        # Start monitoring in a separate thread
         monitor_thread = threading.Thread(target=monitor_process)
         monitor_thread.start()
@@ -16,6 +21,9 @@ def main():
         time.sleep(5)  # Wait for 5 seconds before pausing for testing purposes
         print("Pausing monitoring for one-time connection.")
         one_time_connection()
+
+        # Re-block network connections after the one-time connection
+        block_suspicious_connections()
 
         # Wait for the monitoring thread to complete (it will run indefinitely)
         monitor_thread.join()
