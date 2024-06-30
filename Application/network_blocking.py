@@ -1,17 +1,30 @@
 import psutil
 import smtplib
 
-#scapy - Capture network packets and analyze them to identify remote connection attempts
-def capture_packets():
-    packets = sniff(count=100)
-    packets.summary()
+def list_connections():
+    # Here we can list all current network connection
+    for conn in psutil.net_connections(kind='inet'):
+        try:
+            laddr = f"{conn.laddr.ip}:{conn.laddr.port}"
+            status = conn.status
+            pid = conn.pid
+            process_name = psutil.Process(pid).name() if pid else "Unknown"
+            print(f"Local: {laddr}, Status: {status}, PID: {pid}, Process: {process_name}")
+        except Exception as e:
+            print(f"Error processing connection: {e}")
 
-#Psutil - Monitor system and network activity to detect suspicious behavior
-def monitor_network():
-    connections = psutil.net_connections()
-    for conn in connections:
-        print(conn)
+def block_process_by_pid(pid):
+    try:
+        psutil.Process(pid).terminate()
+        print(f"Terminated process {pid}")
+    except Exception as e:
+        print(f"Failed to terminate process {pid}: {e}")
 
-#subprocess - to block connections based on the identified unauthorized attempts
-def block_ip(ip_address):
-    subprocess.call(['iptables', '-A', 'INPUT', '-s', ip_address, '-j', 'DROP'])
+def block_suspicious_connections():
+    
+    for conn in psutil.net_connections(kind='inet'):
+        if conn.status == 'ESTABLISHED':  # Considering active connections
+            if is_suspicious_connection(conn):
+                print(f"Blocking suspicious connection: {conn}")
+                if conn.pid:  
+                    block_process_by_pid(conn.pid)
