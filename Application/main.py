@@ -4,6 +4,7 @@ import time
 import sys
 from monitor_and_block import monitor_process, one_time_connection
 from elevate import is_admin, run_as_admin
+from network_blocking import block_suspicious_connections
 
 def main():
 
@@ -18,11 +19,17 @@ def main():
             print("Failed to restart with administrative privileges.")
             sys.exit(1) """
     
+
+    
     print("Running with administrative privileges.")
     try:
        # Start monitoring in a separate thread
         monitor_thread = threading.Thread(target=monitor_process)
         monitor_thread.start()
+
+         # Start continuous blocking in a separate thread
+        blocking_thread = threading.Thread(target=block_suspicious_connections)
+        blocking_thread.start()
 
         # test triggering the one-time connection
         # time.sleep(5)  # Wait for 5 seconds before pausing for testing purposes
