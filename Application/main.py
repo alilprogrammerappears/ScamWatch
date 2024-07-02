@@ -4,8 +4,7 @@ import time
 import sys
 from process_blocking import monitor_process, one_time_connection
 from elevate import is_admin, run_as_admin
-from network_blocking import block_all_ports, check_ports_blocked, unblock_all_ports
-
+from network_blocking import check_all_ports_blocked, block_all_ports, block_single_port, unblock_all_ports, check_port_blocked
 
 def main():
 
@@ -21,27 +20,17 @@ def main():
             print("Failed to restart with administrative privileges.")
             sys.exit(1)
     
-# --------------------NOT YET WORKING :(---------------------------------------------------
-    # Check and block common remote connection ports
-    # ports list listed in config.json
-    """  try:
-        # unblock_all_ports()
-        if not check_ports_blocked():
-            print("Some ports are not blocked. Blocking them now...")
-            block_all_ports()
-            check_ports_blocked()
- 
-    except Exception as e:
-
-        print(f"Something went wrong! Here's the error info: {e}") """
- #------------------------------------------------------------------------------------------
-
-    # Begin monitoring processes for common RCA App exes
-    # Uses threading for a continuous process
     try:
 
+        # Check and block common remote connection ports
+        print("Blocking remote connection ports if needed...")
+        block_all_ports()
+
+        # Begin monitoring processes for common RCA App exes
+        print("Now monitoring for RCA applications. Rest assured, you're safe :)")
         monitor_thread = threading.Thread(target=monitor_process)
         monitor_thread.start()
+
 
 # --------------------test triggering the one-time connection -------------------------------
 

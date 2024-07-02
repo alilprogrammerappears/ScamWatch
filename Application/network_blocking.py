@@ -25,7 +25,7 @@ def block_all_ports():
         return
 
     for port in PORTS_SET:
-        if not check_port_rule_exists(port):
+        if not check_port_blocked(port):
             try:
                 subprocess.run(["netsh", "advfirewall", "firewall", "add", "rule",
                                 f"name=Block Port {port}", "dir=in", "action=block", f"protocol=TCP",
@@ -38,8 +38,6 @@ def block_all_ports():
                 print(f"Firewall rule added to block port {port}.")
             except subprocess.CalledProcessError as e:
                 print(f"Failed to block port {port}: {e}")
-        else:
-            print(f"Firewall rule for port {port} already exists. Skipping.")
 
 # block a single port
 def block_single_port(port):
@@ -49,18 +47,20 @@ def block_single_port(port):
         print("Please restart ScamWatch with administrative rights.")
         return
 
-    try:
-        subprocess.run(["netsh", "advfirewall", "firewall", "add", "rule",
-                        f"name=Block Port {port}", "dir=in", "action=block", f"protocol=TCP",
-                        f"localport={port}", f"remoteip=any"],
-                       check=True)
-        subprocess.run(["netsh", "advfirewall", "firewall", "add", "rule",
-                        f"name=Block Port {port}", "dir=in", "action=block", f"protocol=UDP",
-                        f"localport={port}", f"remoteip=any"],
-                       check=True)
-        print(f"Firewall rule added to block port {port}.")
-    except subprocess.CalledProcessError as e:
-        print(f"Failed to block port {port}: {e}")
+    if not check_port_blocked(port):
+        try:
+            subprocess.run(["netsh", "advfirewall", "firewall", "add", "rule",
+                            f"name=Block Port {port}", "dir=in", "action=block", f"protocol=TCP",
+                            f"localport={port}", f"remoteip=any"],
+                        check=True)
+            subprocess.run(["netsh", "advfirewall", "firewall", "add", "rule",
+                            f"name=Block Port {port}", "dir=in", "action=block", f"protocol=UDP",
+                            f"localport={port}", f"remoteip=any"],
+                        check=True)
+            print(f"Firewall rule added to block port {port}.")
+        
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to block port {port}: {e}")
 
 
 # unblock all ports from the ports list in config.json
@@ -76,6 +76,8 @@ def unblock_all_ports():
     try:
         for port in PORTS_SET:
             unblock_single_port(port)
+        print("all ports unblocked")
+
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while unblocking ports: {e}")
 
@@ -103,17 +105,24 @@ def unblock_single_port(port):
 # check if a specific port is blocked
 # Returns true if it is
 def check_port_blocked(port):
-
     try:
-        # Check TCP and UDP rules separately for the port
-        tcp_rule = subprocess.run(["netsh", "advfirewall", "firewall", "show", "rule", f"name=Block Port {port}",
-                                   "protocol=TCP"], capture_output=True, text=True)
-        udp_rule = subprocess.run(["netsh", "advfirewall", "firewall", "show", "rule", f"name=Block Port {port}",
-                                   "protocol=UDP"], capture_output=True, text=True)
+        # Check TCP rule for the port
+        tcp_rule = subprocess.run(
+            ["netsh", "advfirewall", "firewall", "show", "rule", f"name=Block Port {port}"],
+            capture_output=True,
+            text=True
+        )
+        
+        # Check UDP rule for the port
+        udp_rule = subprocess.run(
+            ["netsh", "advfirewall", "firewall", "show", "rule", f"name=Block Port {port}"],
+            capture_output=True,
+            text=True
+        )
 
         # Check if either TCP or UDP rule output indicates that the port is blocked
         return "Block" in tcp_rule.stdout and "Block" in udp_rule.stdout
-    
+
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while checking port {port}: {e}")
         return False
@@ -121,7 +130,7 @@ def check_port_blocked(port):
 
 # checks if all of the ports from the ports list in config.json are blocked
 # prints result
-def check_ports_blocked():
+def check_all_ports_blocked():
 
     print("Checking blocked status for ports in PORTS_SET:")
     for port in PORTS_SET:
@@ -130,19 +139,3 @@ def check_ports_blocked():
         else:
             print(f"Port {port} is NOT blocked.")
 
-
-# Function to check if a specific port rule exists
-def check_port_rule_exists(port):
-    try:
-        # Check TCP and UDP rules separately for the port
-        tcp_rule = subprocess.run(["netsh", "advfirewall", "firewall", "show", "rule", f"name=Block Port {port}",
-                                   "protocol=TCP"], capture_output=True, text=True)
-        udp_rule = subprocess.run(["netsh", "advfirewall", "firewall", "show", "rule", f"name=Block Port {port}",
-                                   "protocol=UDP"], capture_output=True, text=True)
-
-        # Check if either TCP or UDP rule output indicates that the port is blocked
-        return "Block" in tcp_rule.stdout and "Block" in udp_rule.stdout
-    
-    except subprocess.CalledProcessError as e:
-        print(f"Error occurred while checking port {port}: {e}")
-        return False
