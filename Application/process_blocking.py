@@ -5,23 +5,45 @@
 import psutil
 import ctypes
 import time
-from exe_name_list import EXE_NAME_LIST
+import json
 from pause_manager import is_paused, set_pause
 
+# Load exe name list
+def load_exe_names_from_json(file_path="config.json"):
+    try:
+        with open(file_path, "r") as file:
+            config = json.load(file)
+            exe_names = config.get("exe_names", [])
+        return set(name.lower() for name in exe_names)
+    except FileNotFoundError:
+        print("Configuration file not found. Using default settings.")
+    except json.JSONDecodeError:
+        print("Error decoding configuration file. Using default settings.")
+
+EXE_NAME_SET = load_exe_names_from_json()
 
 # Check for process and return a Process object if found
-def check_for_processes(process_name):
-    process_name = process_name.lower()
+def check_for_processes(process_names_set):
+    
+    found_processes = []
 
-    return [process for process in psutil.process_iter(['pid', 'name']) if process.info['name'].lower() == process_name]
+    for process in psutil.process_iter(['pid', 'name']):
+        try:
+            if process.info['name'].lower() in process_names_set:
+                found_processes.append(process)
+                print(f"Found process: {process.info['name']} (pid: {process.pid})")  # Debug statement
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            continue
+    return found_processes
 
 
 # Terminate the Process
 def block_process(process, warned_processes):
 
     try:
-        if process not in warned_processes:
+        if process.info['name'].lower() not in warned_processes:
             process.terminate()
+            print(f"Terminated process: {process.info['name']} (pid: {process.pid})")  # Debug statement
             # Allow the process to terminate
             process.wait()
             show_warning()
@@ -47,12 +69,11 @@ def monitor_process():
                 set_pause(False)
                 print("Monitoring resumed.")
         else:
-            for process_name in EXE_NAME_LIST:
-                processes = check_for_processes(process_name)
-                for process in processes:
-                    block_process(process, warned_processes)
+            processes = check_for_processes(EXE_NAME_SET)
+            for process in processes:
+                block_process(process, warned_processes)
             time.sleep(1)
-            warned_processes.clear() # Clear set each cycle to allow for new warnings
+            warned_processes.clear()  # Clear set each cycle to allow for new warnings
 
 # allow a short connection by pausing monitoring
 def one_time_connection():
@@ -66,5 +87,3 @@ def show_warning():
         "ScamWatch Alert",
         0x40 | 0x1 | 0x40000  # MB_ICONWARNING | MB_OK | MB_TOPMOST
     )
-
-
