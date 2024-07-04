@@ -6,7 +6,9 @@ import psutil
 import ctypes
 import time
 import json
+import threading
 from pause_manager import is_paused, set_pause
+from external_alerts import send_alert_email
 
 # Load exe name list
 def load_exe_names_from_json(file_path="config.json"):
@@ -46,7 +48,9 @@ def block_process(process, warned_processes):
             print(f"Terminated process: {process.info['name']} (pid: {process.pid})")  # Debug statement
             # Allow the process to terminate
             process.wait()
-            show_warning()
+            threading.Thread(target=show_warning).start()
+            trusted_contact_email = 'kassandra.montgomery@student.kpu.ca' # Testing purposes only!
+            threading.Thread(target=send_alert_email, args=(trusted_contact_email,)).start()
             warned_processes.add(process.info['name'].lower())
     except psutil.NoSuchProcess:
         # In case the process has already been terminated
@@ -54,7 +58,7 @@ def block_process(process, warned_processes):
     except psutil.AccessDenied:
         # Handle the AccessDenied exception
         print(f"Access denied for terminating process: {process.info['name']} (pid: {process.pid}).")
-        print(f"ScamWatch needs elevated")
+        print(f"ScamWatch needs elevated privileges")
 
 # Continiously monitor process list
 def monitor_process():
@@ -81,9 +85,13 @@ def one_time_connection():
 
 # temp notification window
 def show_warning():
-    ctypes.windll.user32.MessageBoxW(
-        0,
-        "WARNING! This may be a remote connection scam!\nDon't worry, however, we have blocked and you are safe!",
-        "ScamWatch Alert",
-        0x40 | 0x1 | 0x40000  # MB_ICONWARNING | MB_OK | MB_TOPMOST
-    )
+
+    def warning_message():
+        ctypes.windll.user32.MessageBoxW(
+            0,
+            "WARNING! This may be a remote connection scam!\nDon't worry, however, we have blocked and you are safe!",
+            "ScamWatch Alert",
+            0x40 | 0x1 | 0x40000  # MB_ICONWARNING | MB_OK | MB_TOPMOST
+        )
+
+    threading.Thread(target=warning_message).start()

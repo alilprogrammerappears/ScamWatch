@@ -4,7 +4,7 @@ import time
 import sys
 from process_blocking import monitor_process, one_time_connection
 from elevate import is_admin, run_as_admin
-from network_blocking import check_all_ports_blocked, block_all_ports, block_single_port, unblock_all_ports, check_port_blocked
+from port_blocking import check_all_ports_blocked, block_all_ports, block_single_port, unblock_all_ports, check_port_blocked
 
 def main():
 
