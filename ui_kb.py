@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import webbrowser
+from PIL import Image, ImageTk, ImageOps, ImageDraw
 
 class KnowledgeBase:
     def __init__(self, root):
@@ -9,22 +10,29 @@ class KnowledgeBase:
         self.root.geometry("600x600")
         self.root.configure(bg="#f0f0f0")
 
-        # Title
-        title = tk.Label(root, text="Knowledge Base", font=("Helvetica", 24, "bold"), bg="#f0f0f0", fg="#2c3e50")
+    
+
+       # Title
+        title = tk.Label(root, text="Knowledge Base", font=("Helvetica", 24, "bold"), bg="#2C3E50", fg="#4CAF50")
         title.pack(pady=10)
 
-        # Search Bar
-        search_frame = tk.Frame(root, bg="#f0f0f0")
-        search_frame.pack(pady=10, fill="x")
+               # Load and display image
+        self.logo_image = Image.open("login bg.png")
+        self.logo_image = self.logo_image.resize((100, 100), Image.LANCZOS)
 
-        search_label = tk.Label(search_frame, text="Search:", bg="#f0f0f0", fg="#2c3e50")
-        search_label.pack(side="left", padx=10)
+        # Create a circular mask
+        mask = Image.new("L", self.logo_image.size, 0)
+        draw = ImageDraw.Draw(mask)
+        draw.ellipse((0, 0) + self.logo_image.size, fill=255)
+        self.logo_image.putalpha(mask)
 
-        self.search_entry = tk.Entry(search_frame, width=40)
-        self.search_entry.pack(side="left", padx=10)
+        # Apply mask to make image circular
+        self.logo_image = ImageOps.fit(self.logo_image, mask.size, centering=(0.5, 0.5))
+        self.logo_image.putalpha(mask)
 
-        search_button = tk.Button(search_frame, text="Search", command=self.search)
-        search_button.pack(side="left", padx=10)
+        self.logo_photo = ImageTk.PhotoImage(self.logo_image)
+        logo_label = tk.Label(root, image=self.logo_photo, bg="#2C3E50")
+        logo_label.pack(pady=10)
 
         # Content Display Area
         self.content_text = tk.Text(root, wrap="word", height=20, width=80, bg="white", fg="black", font=("Helvetica", 12))
@@ -38,7 +46,6 @@ class KnowledgeBase:
         links_label.pack(anchor="w", padx=10)
 
         links = [
-            ("Five best practices to avoid falling prey to remote scammers", "https://www.goto.com/blog/five-best-practices-to-avoid-falling-prey-to-remote-scammers"),
             ("Anydesk - Abuse prevention", "https://anydesk.com/en/abuse-prevention"),
             ("Remote access scams - All you need to know", "https://goabacus.com/remote-access-scams-everything-you-need-to-know-to-avoid-falling-for-one/"),
             ("ConnectWise - How to avoid remote support scams", "https://www.connectwise.com/blog/rmm/how-to-avoid-remote-support-scams"),
@@ -49,12 +56,6 @@ class KnowledgeBase:
         for text, url in links:
             link_button = tk.Button(links_frame, text=text, command=lambda url=url: self.open_link(url), bg="#4CAF50", fg="white")
             link_button.pack(fill="x", padx=10, pady=5)
-
-    def search(self):
-        # Placeholder for search functionality
-        query = self.search_entry.get()
-        self.content_text.delete(1.0, tk.END)
-        self.content_text.insert(tk.END, f"Search results for: {query}")
 
     def open_link(self, url):
         webbrowser.open(url)
