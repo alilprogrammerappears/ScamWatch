@@ -51,8 +51,10 @@ class KnowledgeBase:
             link_button = tk.Button(links_frame, text=text, command=lambda url=url: self.open_link(url), bg="#4CAF50", fg="white")
             link_button.pack(fill="x", padx=10, pady=5)
 
+
     def open_link(self, url):
         webbrowser.open(url)
+
 
 if __name__ == "__main__":
     root = tk.Tk()
