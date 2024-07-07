@@ -34,10 +34,6 @@ class KnowledgeBase:
         logo_label = tk.Label(root, image=self.logo_photo, bg="#2C3E50")
         logo_label.pack(pady=10)
 
-        # Content Display Area
-        self.content_text = tk.Text(root, wrap="word", height=20, width=80, bg="white", fg="black", font=("Helvetica", 12))
-        self.content_text.pack(padx=10, pady=10)
-
         # Links Section
         links_frame = tk.Frame(root, bg="#2C3E50")
         links_frame.pack(pady=10)
