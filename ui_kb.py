@@ -10,17 +10,15 @@ class KnowledgeBase:
         self.root.geometry("600x600")
         self.root.configure(bg="#f0f0f0")
 
-    
-
        # Title
         title = tk.Label(root, text="Knowledge Base", font=("Helvetica", 24, "bold"), bg="#2C3E50", fg="#4CAF50")
         title.pack(pady=10)
 
-               # Load and display image
+        # Load and display image
         self.logo_image = Image.open("login bg.png")
         self.logo_image = self.logo_image.resize((100, 100), Image.LANCZOS)
 
-        # Create a circular mask
+        #   # Create a circular mask
         mask = Image.new("L", self.logo_image.size, 0)
         draw = ImageDraw.Draw(mask)
         draw.ellipse((0, 0) + self.logo_image.size, fill=255)
