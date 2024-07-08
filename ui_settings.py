@@ -57,6 +57,7 @@ class SettingsScreen:
         general_settings_frame = ttk.LabelFrame(root, text="General Settings", style="TLabelframe")
         general_settings_frame.pack(pady=10, padx=10, fill="x")
 
+
         general_inner_frame = tk.Frame(general_settings_frame, bg="#2C3E50")
         general_inner_frame.pack(fill="x")
 
