@@ -8,9 +8,9 @@ class KnowledgeBase:
         self.root = root
         self.root.title("ScamWatch Knowledge Base")
         self.root.geometry("600x600")
-        self.root.configure(bg="#f0f0f0")
+        self.root.configure(bg="#2C3E50")
 
-       # Title
+        # Title
         title = tk.Label(root, text="Knowledge Base", font=("Helvetica", 24, "bold"), bg="#2C3E50", fg="#4CAF50")
         title.pack(pady=10)
 
@@ -18,7 +18,7 @@ class KnowledgeBase:
         self.logo_image = Image.open("login bg.png")
         self.logo_image = self.logo_image.resize((100, 100), Image.LANCZOS)
 
-        #   # Create a circular mask
+        # Create a circular mask
         mask = Image.new("L", self.logo_image.size, 0)
         draw = ImageDraw.Draw(mask)
         draw.ellipse((0, 0) + self.logo_image.size, fill=255)
@@ -48,7 +48,7 @@ class KnowledgeBase:
         ]
 
         for text, url in links:
-            link_button = tk.Button(links_frame, text=text, command=lambda url=url: self.open_link(url), bg="#4CAF50", fg="white")
+            link_button = tk.Button(links_frame, text=text, command=lambda url=url: self.open_link(url), bg="#4CAF50", fg="#FFFFFF")
             link_button.pack(fill="x", padx=10, pady=5)
 
 
