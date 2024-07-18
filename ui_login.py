@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageOps, ImageDraw
+import mysql.connector
+from mysql.connector import Error
 
 class LoginScreen:
     def __init__(self, root):
@@ -57,20 +59,95 @@ class LoginScreen:
         login_button.pack(pady=20)
 
         # Sign Up Button
-        signup_button = ttk.Button(root, text="Sign Up", command=self.signup)
+        signup_button = ttk.Button(root, text="Sign Up", command=self.open_signup_window)
         signup_button.pack()
 
+    def create_connection(self):
+        try:
+            connection = mysql.connector.connect(
+                host='swatch.cvuie4ieiptg.us-east-2.rds.amazonaws.com',
+                port=3306,
+                user='admin',
+                password='scamwatch',
+                database='scamwatch_users'  # Use the correct database name
+            )
+            if connection.is_connected():
+                return connection
+        except Error as e:
+            print(f"Error: {e}")
+            return None
+
     def login(self):
-        # Login functionality
         username = self.username_entry.get()
         password = self.password_entry.get()
-        print(f"Logging in with Username: {username} and Password: {password}")
-        # Implement actual login logic here
+        
+        connection = self.create_connection()
+        if connection:
+            cursor = connection.cursor()
+            query = "SELECT * FROM users WHERE username = %s AND password = %s"
+            cursor.execute(query, (username, password))
+            result = cursor.fetchone()
+            connection.close()
+            if result:
+                print("Login successful")
+                # Implement post-login logic here
+            else:
+                print("Invalid username or password")
+        else:
+            print("Failed to connect to the database")
+
+    def open_signup_window(self):
+        self.signup_window = tk.Toplevel(self.root)
+        self.signup_window.title("Sign Up")
+        self.signup_window.geometry("400x450")
+        
+        # Name
+        name_label = ttk.Label(self.signup_window, text="Name")
+        name_label.pack(pady=5)
+        self.name_entry = ttk.Entry(self.signup_window, width=30)
+        self.name_entry.pack(pady=5)
+        
+        # Username
+        username_label = ttk.Label(self.signup_window, text="Username")
+        username_label.pack(pady=5)
+        self.signup_username_entry = ttk.Entry(self.signup_window, width=30)
+        self.signup_username_entry.pack(pady=5)
+
+        # Password
+        password_label = ttk.Label(self.signup_window, text="Password")
+        password_label.pack(pady=5)
+        self.signup_password_entry = ttk.Entry(self.signup_window, width=30, show="*")
+        self.signup_password_entry.pack(pady=5)
+
+        # Email
+        email_label = ttk.Label(self.signup_window, text="Email")
+        email_label.pack(pady=5)
+        self.email_entry = ttk.Entry(self.signup_window, width=30)
+        self.email_entry.pack(pady=5)
+
+        # Sign Up Button
+        signup_button = ttk.Button(self.signup_window, text="Sign Up", command=self.signup)
+        signup_button.pack(pady=20)
 
     def signup(self):
-        # Sign Up functionality
-        print("Navigating to Sign Up screen")
-        # Implement navigation to sign up screen here
+        name = self.name_entry.get()
+        username = self.signup_username_entry.get()
+        password = self.signup_password_entry.get()
+        email = self.email_entry.get()
+        
+        connection = self.create_connection()
+        if connection:
+            cursor = connection.cursor()
+            query = "INSERT INTO users (username, password, email) VALUES (%s, %s, %s)"
+            try:
+                cursor.execute(query, (username, password, email))
+                connection.commit()
+                print("Sign up successful")
+            except Error as e:
+                print(f"Failed to sign up: {e}")
+            connection.close()
+        else:
+            print("Failed to connect to the database")
 
 if __name__ == "__main__":
     root = tk.Tk()
