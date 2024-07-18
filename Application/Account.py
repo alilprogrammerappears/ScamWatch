@@ -1,6 +1,6 @@
 #implementing account class
 
-import mysql.connector
+import mysql.connector 
 from mysql.connector import Error
 
 class Account:
