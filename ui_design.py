@@ -3,7 +3,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk, ImageOps, ImageDraw
 import subprocess
 
-# Placeholder for the current user (This should be set dynamically in a real application)
+# Placeholder for the current user 
 current_user = "JohnDoe"
 
 class ScamWatchApp:
@@ -87,8 +87,26 @@ class ScamWatchApp:
 
     def show_profile(self):
         # Functionality to show user profile
-        print(f"Showing profile for user: {current_user}")
-        # Implement actual profile display logic here
+        profile_window = tk.Toplevel(self.root)
+        profile_window.title("User Profile")
+        profile_window.geometry("400x300")
+        profile_window.configure(bg="#2C3E50")
+        
+        profile_title = tk.Label(profile_window, text="User Profile", font=("Helvetica", 18, "bold"), bg="#2C3E50", fg="#4CAF50")
+        profile_title.pack(pady=10)
+        
+        username_label = tk.Label(profile_window, text=f"Username: {current_user}", font=("Helvetica", 14), bg="#2C3E50", fg="#FFFFFF")
+        username_label.pack(pady=5)
+        
+        # Add more profile details here
+        email_label = tk.Label(profile_window, text="Email: johndoe@example.com", font=("Helvetica", 14), bg="#2C3E50", fg="#FFFFFF")
+        email_label.pack(pady=5)
+        
+        # Add more fields as needed
+        # ...
+        
+        close_button = ttk.Button(profile_window, text="Close", command=profile_window.destroy)
+        close_button.pack(pady=10)
 
     def open_settings(self):
         # Functionality to open settings screen
