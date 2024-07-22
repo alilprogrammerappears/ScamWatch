@@ -10,6 +10,7 @@ import threading
 import logging
 from pause_manager import is_paused, set_pause
 from external_alerts import send_alert_email
+from ui_notification import show_custom_alert
 
 # Load exe name list
 def load_exe_names_from_json(file_path="config.json"):
