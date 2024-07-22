@@ -7,6 +7,7 @@ import ctypes
 import time
 import json
 import threading
+import logging
 from pause_manager import is_paused, set_pause
 from external_alerts import send_alert_email
 
@@ -18,9 +19,9 @@ def load_exe_names_from_json(file_path="config.json"):
             exe_names = config.get("exe_names", [])
         return set(name.lower() for name in exe_names)
     except FileNotFoundError:
-        print("Configuration file not found. Using default settings.")
+        logging.info("Configuration file not found. Using default settings.")
     except json.JSONDecodeError:
-        print("Error decoding configuration file. Using default settings.")
+        logging.error("Error decoding configuration file. Using default settings.")
 
 EXE_NAME_SET = load_exe_names_from_json()
 
@@ -33,7 +34,7 @@ def check_for_processes(process_names_set):
         try:
             if process.info['name'].lower() in process_names_set:
                 found_processes.append(process)
-                print(f"Found process: {process.info['name']} (pid: {process.pid})")  # Debug statement
+                logging.info(f"Found process: {process.info['name']} (pid: {process.pid})")  # Debug statement
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             continue
     return found_processes
@@ -45,7 +46,7 @@ def block_process(process, warned_processes):
     try:
         if process.info['name'].lower() not in warned_processes:
             process.terminate()
-            print(f"Terminated process: {process.info['name']} (pid: {process.pid})")  # Debug statement
+            logging.info(f"Terminated process: {process.info['name']} (pid: {process.pid})")  # Debug statement
             # Allow the process to terminate
             process.wait()
             threading.Thread(target=show_warning).start()
@@ -57,8 +58,7 @@ def block_process(process, warned_processes):
         pass
     except psutil.AccessDenied:
         # Handle the AccessDenied exception
-        print(f"Access denied for terminating process: {process.info['name']} (pid: {process.pid}).")
-        print(f"ScamWatch needs elevated privileges")
+        logging.error(f"Access denied for terminating process: {process.info['name']} (pid: {process.pid}). Scamwatch needs elevated privileges")
 
 # Continiously monitor process list
 def monitor_process():
@@ -68,10 +68,10 @@ def monitor_process():
 
     while True:
         if is_paused():
-                print("Monitoring paused.")
+                logging.info("Monitoring paused.")
                 time.sleep(30)  # Pause for 30 seconds for testing (change to 1800 for 30 minutes)
                 set_pause(False)
-                print("Monitoring resumed.")
+                logging.info("Monitoring resumed.")
         else:
             processes = check_for_processes(EXE_NAME_SET)
             for process in processes:

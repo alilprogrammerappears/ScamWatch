@@ -1,5 +1,6 @@
 import smtplib
 import json
+import logging
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
@@ -16,9 +17,9 @@ def send_alert_email(trusted_contact_email):
             email_message = config.get("message_body")
         # return scamwatch_email, scamwatch_password, email_subject, email_message
     except FileNotFoundError:
-        print("Configuration file not found.")
+        logging.info("Configuration file not found.")
     except json.JSONDecodeError:
-        print("Error decoding configuration file.")
+        logging.error("Error decoding configuration file.")
 
     try:
         # Create the email header
@@ -42,8 +43,8 @@ def send_alert_email(trusted_contact_email):
         # Disconnect from the server
         server.quit()
         
-        print(f"Alert email sent to {trusted_contact_email}.")
+        logging.info(f"Alert email sent to {trusted_contact_email}.")
     except Exception as e:
-        print(f"Failed to send email. Error: {e}")
+        logging.error(f"Failed to send email. Error: {e}")
 
 
