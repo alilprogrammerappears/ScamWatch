@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageOps, ImageDraw
-import mysql.connector
-from mysql.connector import Error
+import dbconnect  # Import the dbconnect module
 
 class LoginScreen:
     def __init__(self, root):
@@ -62,39 +61,16 @@ class LoginScreen:
         signup_button = ttk.Button(root, text="Sign Up", command=self.open_signup_window)
         signup_button.pack()
 
-    def create_connection(self):
-        try:
-            connection = mysql.connector.connect(
-                host='swatch.cvuie4ieiptg.us-east-2.rds.amazonaws.com',
-                port=3306,
-                user='admin',
-                password='scamwatch',
-                database='scamwatch_users'  # Use the correct database name
-            )
-            if connection.is_connected():
-                return connection
-        except Error as e:
-            print(f"Error: {e}")
-            return None
-
     def login(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
         
-        connection = self.create_connection()
-        if connection:
-            cursor = connection.cursor()
-            query = "SELECT * FROM users WHERE username = %s AND password = %s"
-            cursor.execute(query, (username, password))
-            result = cursor.fetchone()
-            connection.close()
-            if result:
-                print("Login successful")
-                # Implement post-login logic here
-            else:
-                print("Invalid username or password")
+        result = dbconnect.authenticate_user(username, password)
+        if result:
+            print("Login successful")
+            # Implement post-login logic here
         else:
-            print("Failed to connect to the database")
+            print("Invalid username or password")
 
     def open_signup_window(self):
         self.signup_window = tk.Toplevel(self.root)
@@ -135,19 +111,12 @@ class LoginScreen:
         password = self.signup_password_entry.get()
         email = self.email_entry.get()
         
-        connection = self.create_connection()
-        if connection:
-            cursor = connection.cursor()
-            query = "INSERT INTO users (username, password, email) VALUES (%s, %s, %s)"
-            try:
-                cursor.execute(query, (username, password, email))
-                connection.commit()
-                print("Sign up successful")
-            except Error as e:
-                print(f"Failed to sign up: {e}")
-            connection.close()
+        success = dbconnect.register_user(name, username, password, email)
+        if success:
+            print("Sign up successful")
+            self.signup_window.destroy()  # Close the signup window
         else:
-            print("Failed to connect to the database")
+            print("Failed to sign up")
 
 if __name__ == "__main__":
     root = tk.Tk()
