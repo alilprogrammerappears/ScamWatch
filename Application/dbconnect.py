@@ -1,25 +1,29 @@
 import mysql.connector
-from mysql.connector import Error
 
-try:
-    connection = mysql.connector.connect(
-        host='scamwatchdb.c9eg4kuesca7.us-east-2.rds.amazonaws.com',
-        database='scamwatchdb',
-        user='admin',
-        password='scamwatch'
-    )
-    if connection.is_connected():
-        db_Info = connection.get_server_info()
-        print("Connected to MySQL Server version ", db_Info)
-        cursor = connection.cursor()
-        cursor.execute("select database();")
-        record = cursor.fetchone()
-        print("You're connected to database: ", record)
+# Database connection details
+DB_HOST = "swatch.cvuie4ieiptg.us-east-2.rds.amazonaws.com"
+DB_PORT = 3306
+DB_USER = "admin"
+DB_PASSWORD = "scamwatch"
+DB_NAME = "swatch"
 
-except Error as e:
-    print("Error while connecting to MySQL", e)
-finally:
-    if connection.is_connected():
-        cursor.close()
-        connection.close()
-        print("MySQL connection is closed")
+def get_current_user():
+    try:
+        conn = mysql.connector.connect(
+            host=DB_HOST,
+            port=DB_PORT,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME
+        )
+        cursor = conn.cursor()
+        cursor.execute("SELECT username FROM users WHERE user_id = 1")  # Change this query as per your schema
+        result = cursor.fetchone()
+        conn.close()
+        if result:
+            return result[0]
+        else:
+            return "Unknown User"
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return "Unknown User"
