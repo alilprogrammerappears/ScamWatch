@@ -5,6 +5,7 @@
 import ctypes
 import sys
 import os
+import logging
 
 def is_admin():
     try:
@@ -17,11 +18,12 @@ def run_as_admin():
         return True
 
     try:
-        # Re-launch the script with admin rights and add a flag
+        # Re-launch the program with admin rights and add a flag
         params = ' '.join([os.path.abspath(sys.argv[0])] + sys.argv[1:] + ["--elevated"])
         ctypes.windll.shell32.ShellExecuteW(
             None, "runas", sys.executable, params, None, 1)
+        logging.info("re-launching ScamWatch with admin privileges")
         return True
     except Exception as e:
-        print(f"Failed to elevate process: {e}")
+        logging.error("Failed to elevate process: {e}")
         return False
