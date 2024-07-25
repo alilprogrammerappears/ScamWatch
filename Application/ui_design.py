@@ -4,8 +4,10 @@ from PIL import Image, ImageTk, ImageOps, ImageDraw
 import subprocess
 import dbconnect  # Import the dbconnect module
 
+# This is the main ScamWatch window file
+
 class ScamWatchApp:
-    def __init__(self, root):
+    def __init__(self, root, username):
         self.root = root
         self.root.title("ScamWatch")
         self.root.geometry("900x700")  # Adjusted window size to fit all elements
@@ -52,8 +54,8 @@ class ScamWatchApp:
         button_frame = tk.Frame(root, bg="#2C3E50")
         button_frame.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky="nsew")
         
-        current_user = dbconnect.get_current_user()
-        username_button = ttk.Button(button_frame, text=f"User Name: {current_user}", command=self.show_profile)
+        # Display the logged-in username
+        username_button = ttk.Button(button_frame, text=f"User Name: {username}", command=self.show_profile)
         username_button.pack(pady=5)
         
         settings_button = ttk.Button(button_frame, text="Settings", command=self.open_settings)
@@ -157,5 +159,5 @@ class SettingsScreen:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = ScamWatchApp(root)
+    app = ScamWatchApp(root, "User")
     root.mainloop()

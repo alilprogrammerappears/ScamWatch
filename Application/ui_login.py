@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageOps, ImageDraw
 import dbconnect  # Import the dbconnect module
+from ui_design import ScamWatchApp  # Import the main application class
 
 class LoginScreen:
     def __init__(self, root):
@@ -68,7 +69,10 @@ class LoginScreen:
         result = dbconnect.authenticate_user(username, password)
         if result:
             print("Login successful")
-            # Implement post-login logic here
+            self.root.destroy()  # Close the login window
+            root = tk.Tk()  # Create a new root window
+            app = ScamWatchApp(root, username)  # Open the main application window
+            root.mainloop()
         else:
             print("Invalid username or password")
 

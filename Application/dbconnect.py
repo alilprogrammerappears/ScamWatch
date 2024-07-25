@@ -1,21 +1,14 @@
 import mysql.connector
 from mysql.connector import Error
 
-# Database connection details
-DB_HOST = "swatch.cvuie4ieiptg.us-east-2.rds.amazonaws.com"
-DB_PORT = 3306
-DB_USER = "admin"
-DB_PASSWORD = "scamwatch"
-DB_NAME = "scamwatch_users"  # Use the correct database name
-
 def create_connection():
     try:
         connection = mysql.connector.connect(
-            host=DB_HOST,
-            port=DB_PORT,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_NAME
+            host='swatch.cvuie4ieiptg.us-east-2.rds.amazonaws.com',
+            port=3306,
+            user='admin',
+            password='scamwatch',
+            database='scamwatch_users'
         )
         if connection.is_connected():
             return connection
@@ -32,7 +25,9 @@ def authenticate_user(username, password):
         result = cursor.fetchone()
         connection.close()
         return result
-    return None
+    else:
+        print("Failed to connect to the database")
+        return None
 
 def register_user(name, username, password, email):
     connection = create_connection()
@@ -42,10 +37,12 @@ def register_user(name, username, password, email):
         try:
             cursor.execute(query, (name, username, password, email))
             connection.commit()
-            connection.close()
             return True
         except Error as e:
             print(f"Failed to sign up: {e}")
+            return False
+        finally:
             connection.close()
-    return False
-
+    else:
+        print("Failed to connect to the database")
+        return False
