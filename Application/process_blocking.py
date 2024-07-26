@@ -10,7 +10,7 @@ import threading
 import logging
 from pause_manager import is_paused, set_pause
 from external_alerts import send_alert_email
-from ui_notification import show_custom_alert
+from ui_notification import show_custom_alert, alert_queue
 
 # Load exe name list
 def load_exe_names_from_json(file_path="config.json"):
@@ -50,7 +50,7 @@ def block_process(process, warned_processes):
             logging.info(f"Terminated process: {process.info['name']} (pid: {process.pid})")  # Debug statement
             # Allow the process to terminate
             process.wait()
-            threading.Thread(target=show_warning).start()
+            alert_queue.put("show_alert") # communicate with notification thread queue
             trusted_contact_email = 'kassandra.montgomery@student.kpu.ca' # Testing purposes only!
             threading.Thread(target=send_alert_email, args=(trusted_contact_email,)).start()
             warned_processes.add(process.info['name'].lower())
@@ -83,16 +83,3 @@ def monitor_process():
 # allow a short connection by pausing monitoring
 def one_time_connection():
     set_pause(True)
-
-# temp notification window
-def show_warning():
-
-    def warning_message():
-        ctypes.windll.user32.MessageBoxW(
-            0,
-            "WARNING! This may be a remote connection scam!\nDon't worry, however, we have blocked and you are safe!",
-            "ScamWatch Alert",
-            0x40 | 0x1 | 0x40000  # MB_ICONWARNING | MB_OK | MB_TOPMOST
-        )
-
-    threading.Thread(target=warning_message).start()
