@@ -51,7 +51,7 @@ def block_process(process, warned_processes):
             # Allow the process to terminate
             process.wait()
             alert_queue.put("show_alert") # communicate with notification thread queue
-            trusted_contact_email = 'kassandra.montgomery@student.kpu.ca' # Testing purposes only!
+            trusted_contact_email = 'kassandra.montgomery@student.kpu.ca' # Testing purposes only! Change to get_email() or whatever from dbconnect
             threading.Thread(target=send_alert_email, args=(trusted_contact_email,)).start()
             warned_processes.add(process.info['name'].lower())
     except psutil.NoSuchProcess:
@@ -82,4 +82,5 @@ def monitor_process():
 
 # allow a short connection by pausing monitoring
 def one_time_connection():
+    logging.info("one_time_connection function called")
     set_pause(True)

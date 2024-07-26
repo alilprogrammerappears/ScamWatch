@@ -158,3 +158,40 @@
 2024-07-25 19:21:49,256 INFO: Found process: TeamViewer.exe (pid: 17744)
 2024-07-25 19:21:49,256 INFO: Terminated process: TeamViewer.exe (pid: 17744)
 2024-07-25 19:21:50,823 INFO: Alert email sent to kassandra.montgomery@student.kpu.ca.
+2024-07-25 19:23:50,107 INFO: ScamWatch is running!
+2024-07-25 19:23:50,107 INFO: Attempting to restart with administrative privileges...
+2024-07-25 19:23:51,259 INFO: re-launching ScamWatch with admin privileges
+2024-07-25 19:23:51,259 INFO: Restarted with administrative privileges.
+2024-07-25 19:23:51,501 INFO: ScamWatch is running!
+2024-07-25 19:23:51,502 INFO: Blocking remote connection ports if needed...
+2024-07-25 19:23:52,319 INFO: Now monitoring for RCA applications. Don't worry, you're safe :)
+2024-07-25 19:24:00,425 INFO: Found process: QuickAssist.exe (pid: 9668)
+2024-07-25 19:24:00,427 INFO: Terminated process: QuickAssist.exe (pid: 9668)
+2024-07-25 19:24:02,264 INFO: Alert email sent to kassandra.montgomery@student.kpu.ca.
+2024-07-25 19:56:15,901 INFO: ScamWatch is running!
+2024-07-25 19:56:15,902 INFO: Attempting to restart with administrative privileges...
+2024-07-25 19:56:17,373 INFO: re-launching ScamWatch with admin privileges
+2024-07-25 19:56:17,374 INFO: Restarted with administrative privileges.
+2024-07-25 19:56:17,609 INFO: ScamWatch is running!
+2024-07-25 19:56:17,609 INFO: Blocking remote connection ports if needed...
+2024-07-25 19:56:18,385 INFO: Now monitoring for RCA applications. Don't worry, you're safe :)
+2024-07-25 19:58:36,742 INFO: Found process: QuickAssist.exe (pid: 21828)
+2024-07-25 19:58:36,742 INFO: Terminated process: QuickAssist.exe (pid: 21828)
+2024-07-25 19:58:38,434 INFO: Alert email sent to kassandra.montgomery@student.kpu.ca.
+2024-07-25 20:06:57,760 INFO: ScamWatch is running!
+2024-07-25 20:06:57,760 INFO: Attempting to restart with administrative privileges...
+2024-07-25 20:06:58,781 INFO: re-launching ScamWatch with admin privileges
+2024-07-25 20:06:58,781 INFO: Restarted with administrative privileges.
+2024-07-25 20:06:59,017 INFO: ScamWatch is running!
+2024-07-25 20:06:59,017 INFO: Blocking remote connection ports if needed...
+2024-07-25 20:06:59,787 INFO: Now monitoring for RCA applications. Don't worry, you're safe :)
+2024-07-25 20:07:34,659 INFO: ScamWatch is running!
+2024-07-25 20:07:34,659 INFO: Attempting to restart with administrative privileges...
+2024-07-25 20:07:35,747 INFO: re-launching ScamWatch with admin privileges
+2024-07-25 20:07:35,747 INFO: Restarted with administrative privileges.
+2024-07-25 20:07:35,984 INFO: ScamWatch is running!
+2024-07-25 20:07:35,985 INFO: Blocking remote connection ports if needed...
+2024-07-25 20:07:36,769 INFO: Now monitoring for RCA applications. Don't worry, you're safe :)
+2024-07-25 20:07:49,934 INFO: Found process: QuickAssist.exe (pid: 7356)
+2024-07-25 20:07:49,936 INFO: Terminated process: QuickAssist.exe (pid: 7356)
+2024-07-25 20:07:56,907 INFO: Alert email sent to kassandra.montgomery@student.kpu.ca.

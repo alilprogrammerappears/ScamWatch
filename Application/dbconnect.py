@@ -46,3 +46,6 @@ def register_user(name, username, password, email):
     else:
         print("Failed to connect to the database")
         return False
+
+# get_trusted_email
+# returns email which is sent to process_blocking for sending an alert

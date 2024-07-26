@@ -1,6 +1,10 @@
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
 import subprocess
+from PIL import Image, ImageTk, ImageOps, ImageDraw
+from process_blocking import one_time_connection
+import logging
+
 
 # Placeholder for the current user 
 current_user = "JohnDoe"
@@ -229,9 +233,12 @@ class SettingsScreen:
         AddTrustedUserDialog(self.root)
 
     def one_time_connection(self):
-        # One-Time Connection functionality
-        print("One-Time Connection")
-        # Implement one-time connection logic here
+        try:
+            logging.info("Calling one_time_connection from process_blocking")
+            one_time_connection()
+            logging.info("one_time_connection successfully called")
+        except Exception as e:
+            logging.error(f"Error calling one_time_connection: {e}")
 
     def back_to_main(self):
         # Function to go back to main screen
