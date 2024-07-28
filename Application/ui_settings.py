@@ -1,128 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
+import mysql.connector
+import os
 import subprocess
-from PIL import Image, ImageTk, ImageOps, ImageDraw
-from process_blocking import one_time_connection
-import logging
-
-
-# Placeholder for the current user 
-current_user = "JohnDoe"
-
-class ScamWatchApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("ScamWatch")
-        self.root.geometry("900x700")  # Adjusted window size to fit all elements
-
-        # Set theme
-        self.style = ttk.Style()
-        self.style.theme_use("clam")
-        self.style.configure("TButton", background="#4CAF50", foreground="white", font=("Helvetica", 12))
-        self.style.configure("TLabel", background="#2C3E50", foreground="#FFFFFF", font=("Helvetica", 12))
-        self.style.configure("TFrame", background="#2C3E50")
-        
-        # Background
-        self.root.configure(bg="#2C3E50")
-
-        # Title
-        title = tk.Label(root, text="ScamWatch", font=("Helvetica", 24, "bold"), bg="#2C3E50", fg="#4CAF50")
-        title.grid(row=0, column=0, columnspan=2, pady=10, padx=20, sticky="w")
-
-        # Load and display image
-        self.logo_image = Image.open("login bg.png")
-        self.logo_image = self.logo_image.resize((100, 100), Image.LANCZOS)
-
-        # Create a circular mask
-        mask = Image.new("L", self.logo_image.size, 0)
-        draw = ImageDraw.Draw(mask)
-        draw.ellipse((0, 0) + self.logo_image.size, fill=255)
-        self.logo_image.putalpha(mask)
-
-        # Apply mask to make image circular
-        self.logo_image = ImageOps.fit(self.logo_image, mask.size, centering=(0.5, 0.5))
-        self.logo_image.putalpha(mask)
-
-        self.logo_photo = ImageTk.PhotoImage(self.logo_image)
-        logo_label = tk.Label(root, image=self.logo_photo, bg="#2C3E50")
-        logo_label.grid(row=1, column=0, columnspan=2, pady=10)
-
-        # Username and Settings
-        button_frame = tk.Frame(root, bg="#2C3E50")
-        button_frame.grid(row=0, column=2, rowspan=2, columnspan=3, padx=20, pady=10, sticky="ne")
-        
-        username_button = ttk.Button(button_frame, text=f"User Name: {current_user}", command=self.show_profile)
-        username_button.pack(pady=5)
-        
-        settings_button = ttk.Button(button_frame, text="Settings", command=self.open_settings)
-        settings_button.pack(pady=5)
-        
-        learn_more_button = ttk.Button(button_frame, text="Learn More", command=self.open_learn_more)
-        learn_more_button.pack(pady=5)
-
-        logout_button = ttk.Button(button_frame, text="Log Out", command=self.log_out)
-        logout_button.pack(pady=5)
-
-        # Summary
-        summary_label = tk.Label(root, text="Summary of recent scam alerts or notifications", bg="#2C3E50", fg="#4CAF50")
-        summary_label.grid(row=2, column=0, columnspan=2, pady=5)
-        summary_text = tk.Text(root, height=10, width=50)
-        summary_text.grid(row=3, column=0, columnspan=2, pady=10, padx=20, sticky="e")
-
-        # Statistics
-        stats_frame = tk.Frame(root, bg="#2C3E50", padx=10, pady=10)
-        stats_frame.grid(row=4, column=0, columnspan=2, pady=10, padx=10, sticky="nsew")
-        stats_label = tk.Label(stats_frame, text="Statistics", bg="#2C3E50", fg="#4CAF50", font=("Helvetica", 16))
-        stats_label.grid(row=0, column=0, columnspan=2, pady=5)
-        
-        detected_label = tk.Label(stats_frame, text="Number of Scams detected", bg="#2C3E50", fg="#4CAF50")
-        detected_label.grid(row=1, column=0, sticky="w")
-        detected_value = tk.Label(stats_frame, text="0", bg="white", fg="#2C3E50", width=10)
-        detected_value.grid(row=1, column=1, sticky="e")
-        
-        prevented_label = tk.Label(stats_frame, text="Number of Scams prevented", bg="#2C3E50", fg="#4CAF50")
-        prevented_label.grid(row=2, column=0, sticky="w")
-        prevented_value = tk.Label(stats_frame, text="0", bg="white", fg="#2C3E50", width=10)
-        prevented_value.grid(row=2, column=1, sticky="e")
-
-    def show_profile(self):
-        # Functionality to show user profile
-        profile_window = tk.Toplevel(self.root)
-        profile_window.title("User Profile")
-        profile_window.geometry("400x300")
-        profile_window.configure(bg="#2C3E50")
-        
-        profile_title = tk.Label(profile_window, text="User Profile", font=("Helvetica", 18, "bold"), bg="#2C3E50", fg="#4CAF50")
-        profile_title.pack(pady=10)
-        
-        username_label = tk.Label(profile_window, text=f"Username: {current_user}", font=("Helvetica", 14), bg="#2C3E50", fg="#FFFFFF")
-        username_label.pack(pady=5)
-        
-        # Add more profile details here
-        email_label = tk.Label(profile_window, text="Email: johndoe@example.com", font=("Helvetica", 14), bg="#2C3E50", fg="#FFFFFF")
-        email_label.pack(pady=5)
-        
-        # Add more fields as needed
-        # ...
-        
-        close_button = ttk.Button(profile_window, text="Close", command=profile_window.destroy)
-        close_button.pack(pady=10)
-
-    def open_settings(self):
-        # Functionality to open settings screen
-        settings_window = tk.Toplevel(self.root)
-        SettingsScreen(settings_window)
-
-    def open_learn_more(self):
-        # Open the ui_kb.py script
-        subprocess.Popen(["python", "ui_kb.py"])
-
-    def log_out(self):
-        # Log out functionality
-        print("Logging out...")
-        # Implement log out logic here, such as closing this window and opening the login window
-        self.root.destroy()  # Close the current window
-        subprocess.Popen(["python", "ui_login.py"])  # Open the login window
 
 class AddTrustedUserDialog(simpledialog.Dialog):
     def body(self, master):
@@ -147,14 +27,30 @@ class AddTrustedUserDialog(simpledialog.Dialog):
         self.phone = self.phone_entry.get()
         self.email = self.email_entry.get()
 
-        # Here you can add code to save the trusted user's info
-        # For now, just print it
-        print(f"Trusted User Added: {self.name}, {self.phone}, {self.email}")
-        messagebox.showinfo("Info", "Trusted user added successfully!")
+        # Connect to the database and insert the trusted user information
+        try:
+            connection = mysql.connector.connect(
+                host="swatch.cvuie4ieiptg.us-east-2.rds.amazonaws.com",
+                user="admin",
+                password="scamwatch",
+                database="scamwatch_users"
+            )
+            cursor = connection.cursor()
+            cursor.execute(
+                "INSERT INTO trustedusers (name, phonenumber, email) VALUES (%s, %s, %s)",
+                (self.name, self.phone, self.email)
+            )
+            connection.commit()
+            cursor.close()
+            connection.close()
+            messagebox.showinfo("Info", "Trusted user added successfully!")
+        except mysql.connector.Error as err:
+            messagebox.showerror("Error", f"Error adding trusted user: {err}")
 
 class SettingsScreen:
-    def __init__(self, root):
+    def __init__(self, root, current_user):
         self.root = root
+        self.current_user = current_user
         self.root.title("ScamWatch Settings")
         self.root.geometry("400x500")
 
@@ -163,7 +59,6 @@ class SettingsScreen:
         self.style.theme_use("clam")
         self.style.configure("TButton", background="#4CAF50", foreground="white", font=("Helvetica", 12))
         self.style.configure("TLabel", background="#2C3E50", foreground="#4CAF50", font=("Helvetica", 12))
-        self.style.configure("TCheckbutton", background="#2C3E50", foreground="#4CAF50", font=("Helvetica", 12))
         self.style.configure("TFrame", background="#2C3E50")
         self.style.configure("TLabelframe", background="#2C3E50")
         self.style.configure("TLabelframe.Label", background="#2C3E50", foreground="#4CAF50", font=("Helvetica", 14, "bold"))
@@ -179,26 +74,14 @@ class SettingsScreen:
         general_settings_frame = ttk.LabelFrame(root, text="General Settings", style="TLabelframe")
         general_settings_frame.pack(pady=10, padx=10, fill="x")
 
-
         general_inner_frame = tk.Frame(general_settings_frame, bg="#2C3E50")
         general_inner_frame.pack(fill="x")
 
-        self.app_status = tk.BooleanVar(value=True)
-        app_toggle_label = ttk.Label(general_inner_frame, text="Turn App On/Off", background="#2C3E50", foreground="#4CAF50")
-        app_toggle_label.pack(anchor="w", padx=10, pady=5)
-        app_toggle_button = ttk.Checkbutton(general_inner_frame, text="On/Off", variable=self.app_status, style="TCheckbutton")
-        app_toggle_button.pack(anchor="w", padx=10, pady=5)
-
-        notifications_var = tk.BooleanVar(value=True)
-        notifications_check = ttk.Checkbutton(general_inner_frame, text="Enable Notifications", variable=notifications_var, style="TCheckbutton")
-        notifications_check.pack(anchor="w", padx=10, pady=5)
-
         add_trusted_user_button = ttk.Button(general_inner_frame, text="Add Trusted User", command=self.add_trusted_user)
-        add_trusted_user_button.pack(anchor="w", padx=10, pady=5)
-        
-        # One-Time Connection Button
-        one_time_connection_button = ttk.Button(general_inner_frame, text="One-Time Connection", command=self.one_time_connection)
-        one_time_connection_button.pack(anchor="w", padx=10, pady=5)
+        add_trusted_user_button.pack(padx=10, pady=5)
+
+        show_trusted_users_button = ttk.Button(general_inner_frame, text="Show Trusted Users", command=self.show_trusted_users)
+        show_trusted_users_button.pack(padx=10, pady=5)
 
         # Account Settings
         account_settings_frame = ttk.LabelFrame(root, text="Account Settings", style="TLabelframe")
@@ -217,9 +100,10 @@ class SettingsScreen:
         privacy_policy_inner_frame = tk.Frame(privacy_policy_frame, bg="#2C3E50")
         privacy_policy_inner_frame.pack(fill="x")
 
-        # Placeholder for privacy policy content
-        privacy_policy_content = tk.Label(privacy_policy_inner_frame, text="", bg="#2C3E50", fg="#4CAF50", font=("Helvetica", 12))
+        privacy_policy_content = tk.Text(privacy_policy_inner_frame, height=10, wrap="word", bg="#2C3E50", fg="#4CAF50", font=("Helvetica", 12))
+        privacy_policy_content.insert(tk.END, "Scamwatch serves to protect you against potential scammers trying to access your system via remote computer connection apps.\n\nWe value your privacy and protect your personal information.\n\nOur policies are designed to safeguard your data and maintain your trust.")
         privacy_policy_content.pack(padx=10, pady=10)
+        privacy_policy_content.config(state=tk.DISABLED)  # Make the text read-only
 
         # Back to Main Screen Button
         back_button = ttk.Button(root, text="Back to Main Screen", command=self.back_to_main)
@@ -232,25 +116,46 @@ class SettingsScreen:
     def add_trusted_user(self):
         AddTrustedUserDialog(self.root)
 
-    def one_time_connection(self):
+    def show_trusted_users(self):
+        # Fetch trusted users from the database and display them in a new window
+        trusted_users_window = tk.Toplevel(self.root)
+        trusted_users_window.title("Trusted Users")
+        trusted_users_window.geometry("400x300")
+        trusted_users_window.configure(bg="#2C3E50")
+
+        trusted_users_title = tk.Label(trusted_users_window, text="Trusted Users", font=("Helvetica", 18, "bold"), bg="#2C3E50", fg="#4CAF50")
+        trusted_users_title.pack(pady=10)
+
         try:
-            logging.info("Calling one_time_connection from process_blocking")
-            one_time_connection()
-            logging.info("one_time_connection successfully called")
-        except Exception as e:
-            logging.error(f"Error calling one_time_connection: {e}")
+            connection = mysql.connector.connect(
+                host="swatch.cvuie4ieiptg.us-east-2.rds.amazonaws.com",
+                user="admin",
+                password="scamwatch",
+                database="scamwatch_users"
+            )
+            cursor = connection.cursor()
+            cursor.execute("SELECT name, phonenumber, email FROM trustedusers")
+            trusted_users = cursor.fetchall()
+            cursor.close()
+            connection.close()
+
+            for user in trusted_users:
+                user_label = tk.Label(trusted_users_window, text=f"Name: {user[0]}, Phone: {user[1]}, Email: {user[2]}", font=("Helvetica", 12), bg="#2C3E50", fg="#FFFFFF")
+                user_label.pack(pady=5)
+        except mysql.connector.Error as err:
+            messagebox.showerror("Error", f"Error fetching trusted users: {err}")
 
     def back_to_main(self):
-        # Function to go back to main screen
         self.root.destroy()
-        subprocess.Popen(["python", "ui_design.py"])
+        script_path = os.path.join(os.path.dirname(__file__), 'ui_main.py')
+        subprocess.Popen(["python", script_path])
 
     def logout(self):
-        # Logout functionality
-        print("Logging out")
-        # Implement actual logout logic here
+        self.root.destroy()
+        script_path = os.path.join(os.path.dirname(__file__), 'ui_login.py')
+        subprocess.Popen(["python", script_path])
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = SettingsScreen(root)
+    app = SettingsScreen(root, current_user="JohnDoe")
     root.mainloop()

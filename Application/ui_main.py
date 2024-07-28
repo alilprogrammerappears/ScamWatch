@@ -2,9 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageOps, ImageDraw
 import subprocess
+import os
 import dbconnect  # Import the dbconnect module
-
-# This is the main ScamWatch window file
 
 class ScamWatchApp:
     def __init__(self, root, username):
@@ -66,6 +65,10 @@ class ScamWatchApp:
         # Display the logged-in username
         username_button = ttk.Button(button_frame, text=f"User Name: {username}", command=self.show_profile)
         username_button.pack(pady=5)
+
+        # One-Time Connection Button
+        one_time_connection_button = ttk.Button(button_frame, text="One-Time Connection", command=self.one_time_connection)
+        one_time_connection_button.pack(anchor="w", padx=10, pady=5)
         
         settings_button = ttk.Button(button_frame, text="Settings", command=self.open_settings)
         settings_button.pack(pady=5)
@@ -75,6 +78,8 @@ class ScamWatchApp:
 
         logout_button = ttk.Button(button_frame, text="Log Out", command=self.log_out)
         logout_button.pack(pady=5)
+
+        self.username = username  # Store the username for later use
 
     def show_profile(self):
         # Functionality to show user profile
@@ -86,34 +91,46 @@ class ScamWatchApp:
         profile_title = tk.Label(profile_window, text="User Profile", font=("Helvetica", 18, "bold"), bg="#2C3E50", fg="#4CAF50")
         profile_title.pack(pady=10)
         
-        current_user = dbconnect.get_current_user()
-        username_label = tk.Label(profile_window, text=f"Username: {current_user}", font=("Helvetica", 14), bg="#2C3E50", fg="#FFFFFF")
+        # Fetch user data from the database
+        user_info = dbconnect.get_user_info(self.username)
+        
+        username_label = tk.Label(profile_window, text=f"Username: {self.username}", font=("Helvetica", 14), bg="#2C3E50", fg="#FFFFFF")
         username_label.pack(pady=5)
         
-        # Add more profile details here
-        email_label = tk.Label(profile_window, text="Email: johndoe@example.com", font=("Helvetica", 14), bg="#2C3E50", fg="#FFFFFF")
-        email_label.pack(pady=5)
+        name_label = tk.Label(profile_window, text=f"Name: {user_info['name']}", font=("Helvetica", 14), bg="#2C3E50", fg="#FFFFFF")
+        name_label.pack(pady=5)
         
-        # Add more fields as needed
-        # ...
+        email_label = tk.Label(profile_window, text=f"Email: {user_info['email']}", font=("Helvetica", 14), bg="#2C3E50", fg="#FFFFFF")
+        email_label.pack(pady=5)
         
         close_button = ttk.Button(profile_window, text="Close", command=profile_window.destroy)
         close_button.pack(pady=10)
 
     def open_settings(self):
         # Functionality to open settings screen
-        subprocess.Popen(["python", "ui_settings.py"])
+        script_path = os.path.join(os.path.dirname(__file__), 'ui_settings.py')
+        subprocess.Popen(["python", script_path])
 
     def open_learn_more(self):
         # Open the ui_kb.py script
-        subprocess.Popen(["python", "ui_kb.py"])
+        script_path = os.path.join(os.path.dirname(__file__), 'ui_kb.py')
+        subprocess.Popen(["python", script_path])
 
     def log_out(self):
         # Log out functionality
         print("Logging out...")
-        # Implement log out logic here, such as closing this window and opening the login window
         self.root.destroy()  # Close the current window
-        subprocess.Popen(["python", "ui_login.py"])  # Open the login window
+        script_path = os.path.join(os.path.dirname(__file__), 'ui_login.py')
+        subprocess.Popen(["python", script_path])  # Open the login window
+        
+    def one_time_connection(self):
+        try:
+            logging.info("Calling one_time_connection from process_blocking")
+            one_time_connection()
+            logging.info("one_time_connection successfully called")
+        except Exception as e:
+            logging.error(f"Error calling one_time_connection: {e}")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
