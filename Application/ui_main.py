@@ -22,9 +22,18 @@ class ScamWatchApp:
         # Background
         self.root.configure(bg="#2C3E50")
 
+        # Configure grid to center elements
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_rowconfigure(1, weight=1)
+        self.root.grid_rowconfigure(2, weight=1)
+        self.root.grid_rowconfigure(3, weight=1)
+        self.root.grid_rowconfigure(4, weight=1)
+        self.root.grid_columnconfigure(0, weight=1)
+        self.root.grid_columnconfigure(1, weight=1)
+
         # Title
         title = tk.Label(root, text="ScamWatch", font=("Helvetica", 24, "bold"), bg="#2C3E50", fg="#4CAF50")
-        title.grid(row=0, column=0, columnspan=2, pady=10, padx=20, sticky="w")
+        title.grid(row=0, column=0, columnspan=2, pady=10, padx=20, sticky="n")
 
         # Load and display image
         self.logo_image = Image.open("login bg.png")
@@ -46,13 +55,13 @@ class ScamWatchApp:
 
         # Placeholder for summaries
         placeholder_label = tk.Label(root, text="Placeholder for future content", bg="#2C3E50", fg="#4CAF50")
-        placeholder_label.grid(row=2, column=0, columnspan=2, pady=5)
+        placeholder_label.grid(row=2, column=0, columnspan=2, pady=5, sticky="n")
         placeholder_text = tk.Text(root, height=10, width=50)
-        placeholder_text.grid(row=3, column=0, columnspan=2, pady=10, padx=20, sticky="e")
+        placeholder_text.grid(row=3, column=0, columnspan=2, pady=10, padx=20)
 
         # Buttons
         button_frame = tk.Frame(root, bg="#2C3E50")
-        button_frame.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky="nsew")
+        button_frame.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky="n")
         
         # Display the logged-in username
         username_button = ttk.Button(button_frame, text=f"User Name: {username}", command=self.show_profile)

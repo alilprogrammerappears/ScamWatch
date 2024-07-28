@@ -1,8 +1,16 @@
+import sys
+import os
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageOps, ImageDraw
 import dbconnect  # Import the dbconnect module
-from ui_design import ScamWatchApp  # Import the main application class
+
+# Add the project's root directory to the Python path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+from Application.ui_main import ScamWatchApp  # Import the main application class
 
 class LoginScreen:
     def __init__(self, root):
