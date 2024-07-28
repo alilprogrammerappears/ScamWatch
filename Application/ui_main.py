@@ -93,7 +93,7 @@ class ScamWatchApp:
         
         # Fetch user data from the database
         user_info = dbconnect.get_user_info(self.username)
-        
+
         username_label = tk.Label(profile_window, text=f"Username: {self.username}", font=("Helvetica", 14), bg="#2C3E50", fg="#FFFFFF")
         username_label.pack(pady=5)
         

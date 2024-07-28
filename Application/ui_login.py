@@ -62,6 +62,10 @@ class LoginScreen:
         self.password_entry = ttk.Entry(root, width=30, show="*")
         self.password_entry.pack(pady=5)
 
+        # Error message label
+        self.error_message = tk.Label(root, text="", font=("Helvetica", 10), bg="#2C3E50", fg="red")
+        self.error_message.pack(pady=5)
+
         # Login Button
         login_button = ttk.Button(root, text="Login", command=self.login)
         login_button.pack(pady=20)
@@ -82,7 +86,7 @@ class LoginScreen:
             app = ScamWatchApp(root, username)  # Open the main application window
             root.mainloop()
         else:
-            print("Invalid username or password")
+            self.error_message.config(text="Try again with correct Username/password")
 
     def open_signup_window(self):
         self.signup_window = tk.Toplevel(self.root)
