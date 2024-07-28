@@ -5,6 +5,10 @@ import os
 import subprocess
 
 class AddTrustedUserDialog(simpledialog.Dialog):
+    def __init__(self, parent, current_user_id):
+        self.current_user_id = current_user_id
+        super().__init__(parent)
+        
     def body(self, master):
         self.title("Add Trusted User")
 
@@ -37,8 +41,8 @@ class AddTrustedUserDialog(simpledialog.Dialog):
             )
             cursor = connection.cursor()
             cursor.execute(
-                "INSERT INTO trustedusers (name, phonenumber, email) VALUES (%s, %s, %s)",
-                (self.name, self.phone, self.email)
+                "INSERT INTO trustedusers (user_id, name, phonenumber, email) VALUES (%s, %s, %s, %s)",
+                (self.current_user_id, self.name, self.phone, self.email)
             )
             connection.commit()
             cursor.close()
@@ -48,11 +52,11 @@ class AddTrustedUserDialog(simpledialog.Dialog):
             messagebox.showerror("Error", f"Error adding trusted user: {err}")
 
 class SettingsScreen:
-    def __init__(self, root, current_user):
+    def __init__(self, root, current_user_id):
         self.root = root
-        self.current_user = current_user
+        self.current_user_id = current_user_id
         self.root.title("ScamWatch Settings")
-        self.root.geometry("400x500")
+        self.root.geometry("500x700")
 
         # Set theme
         self.style = ttk.Style()
@@ -114,7 +118,7 @@ class SettingsScreen:
         logout_button.pack(side="bottom", anchor="e", padx=10, pady=10)
 
     def add_trusted_user(self):
-        AddTrustedUserDialog(self.root)
+        AddTrustedUserDialog(self.root, self.current_user_id)
 
     def show_trusted_users(self):
         # Fetch trusted users from the database and display them in a new window
@@ -134,7 +138,7 @@ class SettingsScreen:
                 database="scamwatch_users"
             )
             cursor = connection.cursor()
-            cursor.execute("SELECT name, phonenumber, email FROM trustedusers")
+            cursor.execute("SELECT name, phonenumber, email FROM trustedusers WHERE user_id = %s", (self.current_user_id,))
             trusted_users = cursor.fetchall()
             cursor.close()
             connection.close()
@@ -157,5 +161,6 @@ class SettingsScreen:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = SettingsScreen(root, current_user="JohnDoe")
+    current_user_id = 1  # Replace with actual user ID obtained after login
+    app = SettingsScreen(root, current_user_id=current_user_id)
     root.mainloop()

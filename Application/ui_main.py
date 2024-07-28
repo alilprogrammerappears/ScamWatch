@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageOps, ImageDraw
+from ui_settings import SettingsScreen
 import subprocess
 import os
 import dbconnect  # Import the dbconnect module
@@ -122,6 +123,11 @@ class ScamWatchApp:
         self.root.destroy()  # Close the current window
         script_path = os.path.join(os.path.dirname(__file__), 'ui_login.py')
         subprocess.Popen(["python", script_path])  # Open the login window
+
+    def opensettings(self):
+        settings_window = tk.Toplevel(self.root)
+        current_user_id = self.current_user_id  # Obtain the actual user ID from the login process
+        settings_app = SettingsScreen(settings_window, current_user_id=current_user_id)
         
     def one_time_connection(self):
         try:
