@@ -130,13 +130,7 @@ class ScamWatchApp:
         settings_app = SettingsScreen(settings_window, current_user_id=current_user_id)
         
     def one_time_connection(self):
-        try:
-            logging.info("Calling one_time_connection from process_blocking")
-            one_time_connection()
-            logging.info("one_time_connection successfully called")
-        except Exception as e:
-            logging.error(f"Error calling one_time_connection: {e}")
-
+        
 
 if __name__ == "__main__":
     root = tk.Tk()
