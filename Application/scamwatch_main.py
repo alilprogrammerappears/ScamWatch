@@ -2,9 +2,10 @@
 import threading
 import sys
 import logging
-from process_blocking import monitor_process, one_time_connection
+from process_blocking import monitor_process
 from elevate import is_admin, run_as_admin
 from port_blocking import block_all_ports
+from ui_windowsShortcut import check_and_create_shortcut
 
 
 def scamwatch_main():
@@ -32,9 +33,15 @@ def scamwatch_main():
     
     try:
 
+        # Check and create a windows shortcut before ex
+        logging.info("Checking for a Windows shortcut and creating one if needed")
+        shortcut_thread = threading.Thread(target=check_and_create_shortcut)
+        shortcut_thread.start()
+
         # Check and block common remote connection ports
         logging.info(f"Blocking remote connection ports if needed...")
-        block_all_ports()
+        port_blocking_thread = threading.Thread(target=block_all_ports)
+        port_blocking_thread.start()
 
         # Begin monitoring processes for common RCA App exes
         logging.info(f"Now monitoring for RCA applications. Don't worry, you're safe :)")
@@ -47,7 +54,6 @@ def scamwatch_main():
         logging.warning("ScamWatch has been stopped by user!")
 
     except Exception as e:
-
         logging.error(f"Something went wrong! Here's the error info: {e}")
 
 

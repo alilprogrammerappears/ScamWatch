@@ -2,9 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageOps, ImageDraw
 from ui_settings import SettingsScreen
+from process_blocking import one_time_connection
+import logging
 import subprocess
 import os
-import dbconnect  # Import the dbconnect module
+import dbconnect
 
 class ScamWatchApp:
     def __init__(self, root, username):
