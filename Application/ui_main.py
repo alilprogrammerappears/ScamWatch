@@ -132,7 +132,7 @@ class ScamWatchApp:
         settings_app = SettingsScreen(settings_window, current_user_id=current_user_id)
         
     def one_time_connection(self):
-        
+        one_time_connection()
 
 if __name__ == "__main__":
     root = tk.Tk()

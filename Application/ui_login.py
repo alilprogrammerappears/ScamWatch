@@ -16,7 +16,7 @@ class LoginScreen:
     def __init__(self, root):
         self.root = root
         self.root.title("ScamWatch Login")
-        self.root.geometry("400x450")
+        self.root.geometry("500x450")
         
         # Set theme
         self.style = ttk.Style()
@@ -33,22 +33,27 @@ class LoginScreen:
         title.pack(pady=10)
 
         # Load and display image
-        self.logo_image = Image.open("login bg.png")
-        self.logo_image = self.logo_image.resize((100, 100), Image.LANCZOS)
+        try:
+            self.logo_image = Image.open("login bg.png")
+            self.logo_image = self.logo_image.resize((100, 100), Image.LANCZOS)
 
-        # Create a circular mask
-        mask = Image.new("L", self.logo_image.size, 0)
-        draw = ImageDraw.Draw(mask)
-        draw.ellipse((0, 0) + self.logo_image.size, fill=255)
-        self.logo_image.putalpha(mask)
+            # Create a circular mask
+            mask = Image.new("L", self.logo_image.size, 0)
+            draw = ImageDraw.Draw(mask)
+            draw.ellipse((0, 0) + self.logo_image.size, fill=255)
+            self.logo_image.putalpha(mask)
 
-        # Apply mask to make image circular
-        self.logo_image = ImageOps.fit(self.logo_image, mask.size, centering=(0.5, 0.5))
-        self.logo_image.putalpha(mask)
+            # Apply mask to make image circular
+            self.logo_image = ImageOps.fit(self.logo_image, mask.size, centering=(0.5, 0.5))
+            self.logo_image.putalpha(mask)
 
-        self.logo_photo = ImageTk.PhotoImage(self.logo_image)
-        logo_label = tk.Label(root, image=self.logo_photo, bg="#2C3E50")
-        logo_label.pack(pady=10)
+            self.logo_photo = ImageTk.PhotoImage(self.logo_image)
+            logo_label = tk.Label(root, image=self.logo_photo, bg="#2C3E50")
+            logo_label.pack(pady=10)
+        except Exception as e:
+            print(f"Error loading image: {e}")
+            logo_label = tk.Label(root, text="ScamWatch", font=("Helvetica", 24, "bold"), bg="#2C3E50", fg="#4CAF50")
+            logo_label.pack(pady=10)
 
         # Username
         username_label = ttk.Label(root, text="Username", background="#2C3E50", foreground="#4CAF50")
@@ -82,9 +87,9 @@ class LoginScreen:
         if result:
             print("Login successful")
             self.root.destroy()  # Close the login window
-            root = tk.Tk()  # Create a new root window
-            app = ScamWatchApp(root, username)  # Open the main application window
-            root.mainloop()
+            main_root = tk.Tk()  # Create a new root window
+            app = ScamWatchApp(main_root, username)  # Open the main application window
+            main_root.mainloop()
         else:
             self.error_message.config(text="Try again with correct Username/password")
 
