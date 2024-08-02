@@ -8,6 +8,17 @@ import subprocess
 import os
 import dbconnect
 
+# Set up log file
+log_file = 'ScamWatch.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(message)s'
+)
+
+logging.getLogger('PIL').setLevel(logging.WARNING)
+
 class ScamWatchApp:
     def __init__(self, root, username):
         self.root = root

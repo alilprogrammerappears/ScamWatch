@@ -1,7 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
 import webbrowser
+import logging
 from PIL import Image, ImageTk, ImageOps, ImageDraw
+
+# Set up log file
+log_file = 'ScamWatch.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(message)s'
+)
+
+logging.getLogger('PIL').setLevel(logging.WARNING)
+
 
 class KnowledgeBase:
     def __init__(self, root):

@@ -356,3 +356,49 @@
 2024-07-30 17:54:13,844 INFO: one_time_connection function called
 2024-07-30 17:54:14,860 INFO: Monitoring paused.
 2024-07-30 17:54:24,861 INFO: Monitoring resumed.
+2024-08-01 20:48:08,690 INFO: ScamWatch is running!
+2024-08-01 20:48:08,691 INFO: Attempting to restart with administrative privileges...
+2024-08-01 20:48:10,471 INFO: re-launching ScamWatch with admin privileges
+2024-08-01 20:48:10,472 INFO: Restarted with administrative privileges.
+2024-08-01 20:48:11,388 INFO: ScamWatch is running!
+2024-08-01 20:48:11,388 INFO: Checking for a Windows shortcut and creating one if needed
+2024-08-01 20:48:11,388 INFO: Blocking remote connection ports if needed...
+2024-08-01 20:48:11,388 INFO: Now monitoring for RCA applications. Don't worry, you're safe :)
+2024-08-01 20:48:11,420 INFO: Shortcut 'ScamWatch' already exists.
+2024-08-01 20:48:21,790 INFO: Found process: QuickAssist.exe (pid: 22724)
+2024-08-01 20:48:21,790 INFO: Terminated process: QuickAssist.exe (pid: 22724)
+2024-08-01 20:48:26,426 INFO: Alert email sent to kassandra.montgomery@student.kpu.ca.
+2024-08-01 20:51:54,572 DEBUG: STREAM b'IHDR' 16 13
+2024-08-01 20:51:54,572 DEBUG: STREAM b'sRGB' 41 1
+2024-08-01 20:51:54,572 DEBUG: STREAM b'gAMA' 54 4
+2024-08-01 20:51:54,572 DEBUG: STREAM b'pHYs' 70 9
+2024-08-01 20:51:54,572 DEBUG: STREAM b'IDAT' 91 23716
+2024-08-01 20:56:31,812 INFO: ScamWatch is running!
+2024-08-01 20:56:31,812 INFO: Attempting to restart with administrative privileges...
+2024-08-01 20:56:33,499 INFO: re-launching ScamWatch with admin privileges
+2024-08-01 20:56:33,499 INFO: Restarted with administrative privileges.
+2024-08-01 20:56:34,307 INFO: ScamWatch is running!
+2024-08-01 20:56:34,307 INFO: Checking for a Windows shortcut and creating one if needed
+2024-08-01 20:56:34,307 INFO: Blocking remote connection ports if needed...
+2024-08-01 20:56:34,307 INFO: Now monitoring for RCA applications. Don't worry, you're safe :)
+2024-08-01 20:56:34,307 INFO: Shortcut 'ScamWatch' already exists.
+2024-08-01 20:57:24,547 INFO: Calling one_time_connection from process_blocking
+2024-08-01 20:57:24,547 INFO: one_time_connection function called
+2024-08-01 20:57:24,547 INFO: one_time_connection successfully called
+2024-08-01 20:57:45,382 INFO: Found process: QuickAssist.exe (pid: 17280)
+2024-08-01 20:57:45,392 INFO: Terminated process: QuickAssist.exe (pid: 17280)
+2024-08-01 20:57:48,414 INFO: Alert email sent to kassandra.montgomery@student.kpu.ca.
+2024-08-01 21:20:44,703 INFO: ScamWatch is running!
+2024-08-01 21:20:44,703 INFO: Attempting to restart with administrative privileges...
+2024-08-01 21:20:46,458 INFO: re-launching ScamWatch with admin privileges
+2024-08-01 21:20:46,458 INFO: Restarted with administrative privileges.
+2024-08-01 21:20:47,268 INFO: ScamWatch is running!
+2024-08-01 21:20:47,268 INFO: Checking for a Windows shortcut and creating one if needed
+2024-08-01 21:20:47,268 INFO: Blocking remote connection ports if needed...
+2024-08-01 21:20:47,268 INFO: Now monitoring for RCA applications. Don't worry, you're safe :)
+2024-08-01 21:20:47,300 INFO: Shortcut 'ScamWatch' already exists.
+2024-08-01 21:21:27,894 INFO: Calling one_time_connection from process_blocking
+2024-08-01 21:21:27,894 INFO: one_time_connection function called
+2024-08-01 21:21:27,895 INFO: one_time_connection successfully called
+2024-08-01 21:21:28,468 INFO: Monitoring paused.
+2024-08-01 21:22:24,404 INFO: Going back to ui_main

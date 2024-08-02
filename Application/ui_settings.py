@@ -6,6 +6,17 @@ import subprocess
 from process_blocking import one_time_connection
 import logging
 
+# Set up log file
+log_file = 'ScamWatch.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(message)s'
+)
+
+logging.getLogger('PIL').setLevel(logging.WARNING)
+
 class AddTrustedUserDialog(simpledialog.Dialog):
     def __init__(self, parent, current_user_id):
         self.current_user_id = current_user_id
@@ -155,6 +166,7 @@ class SettingsScreen:
             messagebox.showerror("Error", f"Error fetching trusted users: {err}")
 
     def back_to_main(self):
+        logging.info("Going back to ui_main")
         self.root.destroy()
         script_path = os.path.join(os.path.dirname(__file__), 'ui_main.py')
         subprocess.Popen(["python", script_path])

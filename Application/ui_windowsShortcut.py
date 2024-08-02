@@ -5,6 +5,15 @@ import logging
 import pythoncom
 import sys
 
+# Set up log file
+log_file = 'ScamWatch.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(message)s'
+)
+
 def check_and_create_shortcut():
 
     #initialize COM library

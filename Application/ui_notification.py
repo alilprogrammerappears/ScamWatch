@@ -2,6 +2,18 @@ import tkinter as tk
 from tkinter import ttk
 import queue
 import threading
+import logging
+
+# Set up log file
+log_file = 'ScamWatch.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(message)s'
+)
+
+logging.getLogger('PIL').setLevel(logging.WARNING)
 
 # Create a queue to communicate between threads
 alert_queue = queue.Queue()

@@ -67,9 +67,10 @@ def monitor_process():
     warned_processes = set()
 
     while True:
+        # check pause_state.txt to check pause_state
         if is_paused():
                 logging.info("Monitoring paused.")
-                time.sleep(100)  # Pause for 10 seconds for testing (change to 1800 for 30 minutes)
+                time.sleep(20)  # Pause for 20 seconds for testing (change to 1800 for 30 minutes)
                 set_pause(False)
                 logging.info("Monitoring resumed.")
         else:
