@@ -11,10 +11,11 @@
 </ul>
 <li>2.0 ScamWatch</li>
 <ul>
-<li>2.1 General Information & Uses</li>
-<li>2.2 ScamWatch Features</li>
-<li>2.3 ScamWatch Constraints & Limitations</li>
-<li>2.4 Future Functionality and Improvement Possibilities</li>
+<li>2.1 Set Up Instructions</li>
+<li>2.2 General Information & Uses</li>
+<li>2.3 ScamWatch Features</li>
+<li>2.4 ScamWatch Constraints & Limitations</li>
+<li>2.5 Future Functionality and Improvement Possibilities</li>
 </ul>
 <li>3.0 Technical Details</li>
 <ul>
@@ -55,7 +56,72 @@ ScamWatch is a keystone project from four people: Anmol Mazoo, Arshdeep Singh, K
 <br>
 
 ## 2.0 ScamWatch
-### 2.1 General Information & Uses
+
+### 2.1 Set Up Instructions
+<p>In its current state, some aspects of ScamWatch have to be set up by the user installing it.</p>
+<p>For example, for ScamWatch to run on start-up, it needs to be scheduled as a recurring task in the Windows Task Scheduler.</p>
+<p>A future goal is to eliminate this need for set up, however that is restricted by our time and developer restraints as outlined in section 2.4. For more future plans and possibilities, please see section 2.5.</p>
+
+#### 2.1.1 Running ScamWatch on Start-up
+<p>To have ScamWatch run when the user's computer starts up, which is the highly recommended way to have ScamWatch run, users will need to create a scheduled task in the Windows Task Scheduler.</p>
+
+<p>While this may seem daunting at first, don't worry - we're here to walk you through it!</p>
+
+<b>Step 1:</b><br>
+<p>In the Windows search bar, search "Task Scheduler", or press Win + R and then enter "taskschd.msc"</p>
+<p>Then, along the right sidebar, under "Actions", click "Create Task"</p>
+
+![](./Task%20Scheduler%20Screenshots/1_create%20task.png)
+
+<br>
+<b>Step 2:</b><br>
+<p>In the wizard that pops up, type "ScamWatch" or something similar Under "Name".</p>
+<p>Then, ensure the following options are checked: "Run whether user is logged in or not" and "Run with highest privilege".</p>
+<p>Next, you'll need to choose what user or group to use. This can vary from person to person, but the user must have administrative privileges. Generally, it is easiest to use the "ADMINISTRATOR" user group, however if you have a user profile that is administrative, that will work too.</p><br>
+<p>When Finished, it should look something like this:</p>
+
+![](./Task%20Scheduler%20Screenshots/2_task%20settings_general.png)
+
+<br>
+
+<b>Step 3:</b><br>
+
+<p>Click on the "triggers" tab and then click "new".</p>
+<p>In the pop-up, choose "at start-up" from the "begin the task" option at the top and then press "okay"</p>
+
+![](./Task%20Scheduler%20Screenshots/3_trigger.png)
+<br>
+
+<b>Step 4:</b><br>
+<p>Click on the "Actions" tab and then click "new".</p>
+<p>in the pop-up, choose "start a program" for "action" and then browse for the scamwatch_main.py file. Then click "okay".</p>
+
+<br>
+
+<b>Step 5:</b><br>
+<p>Click on the "Conditions" tab. It should look like the screenshot below - with nothing checked:</p>
+
+![](./Task%20Scheduler%20Screenshots/4_conditions.png)
+
+<br>
+
+<b>Step 6:</b><br>
+<p>Click on the "Settings" tab and check the following options and then click "Okay"</p>
+<ul>
+    <li>Allow task to be read on demand</li>
+    <li>If the running task does not end when requested, force it to stop</li>
+</ul>
+
+<p>It should look like this: </p>
+
+![](./Task%20Scheduler%20Screenshots/4_settings.png)
+
+<br>
+
+<p>And that's it! Once you restart your computer, ScamWatch will be there to protect you!</p>
+
+
+### 2.2 General Information & Uses
 
 <p>ScamWatch is a downloadable software for Windows operating systems, designed to provide an extra layer of protection against common scams, specifically scams that involve the use of remote-control access (RCA) applications. The primary functions of this software are to block the installation of RCA applications, block remote connections, and notify the user when a remote connection is attempted. The secondary function of ScamWatch is to help educate the user in an effort to help promote awareness.</p>
 
@@ -68,7 +134,7 @@ ScamWatch is a keystone project from four people: Anmol Mazoo, Arshdeep Singh, K
 <p>We do realize that there are situations where someone may need to connect to a user's computer for legitimate reasons. Due to this, if the user requires an RCA application for a legitimate use, they may either contact the person who set it up on their computer, for example Steve from earlier, to help unblock the application temporarily, or they may log into ScamWatch, themselves.</p>
 <br>
 
-### 2.2 ScamWatch Features
+### 2.3 ScamWatch Features
 
 <p>Below are a list of features and functions that of ScamWatch. More technical details on how each function works will be expounded upon in section 3.0.
 </p>
@@ -91,7 +157,7 @@ ScamWatch is a keystone project from four people: Anmol Mazoo, Arshdeep Singh, K
 </ul>
 <br>
 
-### 2.3 ScamWatch Constraints & Limitations
+### 2.4 ScamWatch Constraints & Limitations
 
 <p>As ScamWatch is a project that has been implemented within a short timeframe and that we are students, there are constraints and limitations to be aware of. Our hope is that we will be able to improve and expand upon this software in the future. The following list outlines these constraints:</p>
 
@@ -118,7 +184,7 @@ ScamWatch is a keystone project from four people: Anmol Mazoo, Arshdeep Singh, K
 
 <br>
 
-### 2.4 Future Functionality and Improvement Possibilities
+### 2.5 Future Work
 
 
 <br>
@@ -149,7 +215,10 @@ ScamWatch is a keystone project from four people: Anmol Mazoo, Arshdeep Singh, K
 
 <p>As there are legitimate situations where a user may need someone to remotely access their computer, ScamWatch has the ability to allow a one-time connection. As the purpose of ScamWatch is to prevent these connections however, the connection allowance times out after 30 minutes. Furthermore, the user can access this setting only after they enter a password and an alert is trigged locally as well as sent to their trusted contact (if added).</p>
 
-<p>The one-time connection feature essentially pauses the application. It stops the process monitoring for a period of time and <b><u>adjusts the firewall settings briefly OR whitelists a port? or all blocked RC ports?</u></b>. It does not pause the alerts, however.</p>
+<p>The one-time connection feature essentially pauses the application. It stops the process monitoring for a period of time to allow for the use of an RCA application. Currently, the time is set to 30 minutes.</p>
+
+<p>**NOTE**: In order for the One Time Connection to work, scamwatch.py <b>must</b> be running. If ScamWatch has been configured to start on computer start-up, it will automatically be running. This is something that will be improved upon in the future. For more information, refer to section 2.5: Future Work.</p>
+
 <br>
 
 #### 3.2.4 Local and External Alerts
