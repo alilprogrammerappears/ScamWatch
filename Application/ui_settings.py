@@ -3,6 +3,8 @@ from tkinter import ttk, simpledialog, messagebox
 import mysql.connector
 import os
 import subprocess
+from process_blocking import one_time_connection
+import logging
 
 class AddTrustedUserDialog(simpledialog.Dialog):
     def __init__(self, parent, current_user_id):
@@ -87,6 +89,9 @@ class SettingsScreen:
         show_trusted_users_button = ttk.Button(general_inner_frame, text="Show Trusted Users", command=self.show_trusted_users)
         show_trusted_users_button.pack(padx=10, pady=5)
 
+        one_time_connection_button = ttk.Button(general_inner_frame, text="One-Time Connection", command=self.one_time_connection)
+        one_time_connection_button.pack(padx=10, pady=5)
+
         # Account Settings
         account_settings_frame = ttk.LabelFrame(root, text="Account Settings", style="TLabelframe")
         account_settings_frame.pack(pady=10, padx=10, fill="x")
@@ -158,6 +163,15 @@ class SettingsScreen:
         self.root.destroy()
         script_path = os.path.join(os.path.dirname(__file__), 'ui_login.py')
         subprocess.Popen(["python", script_path])
+
+    def one_time_connection(self):
+        # testing
+        try:
+            logging.info("Calling one_time_connection from process_blocking")
+            one_time_connection()
+            logging.info("one_time_connection successfully called")
+        except Exception as e:
+            logging.error(f"Error calling one_time_connection: {e}")
 
 if __name__ == "__main__":
     root = tk.Tk()

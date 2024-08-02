@@ -2,7 +2,7 @@
 import threading
 import sys
 import logging
-from process_blocking import monitor_process
+from process_blocking import monitor_process, one_time_connection
 from elevate import is_admin, run_as_admin
 from port_blocking import block_all_ports
 from ui_windowsShortcut import check_and_create_shortcut
@@ -47,7 +47,6 @@ def scamwatch_main():
         logging.info(f"Now monitoring for RCA applications. Don't worry, you're safe :)")
         monitor_thread = threading.Thread(target=monitor_process)
         monitor_thread.start()
-
         monitor_thread.join()
 
     except KeyboardInterrupt:

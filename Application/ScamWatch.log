@@ -328,3 +328,31 @@
 2024-07-30 14:31:26,887 INFO: Blocking remote connection ports if needed...
 2024-07-30 14:31:26,887 INFO: Now monitoring for RCA applications. Don't worry, you're safe :)
 2024-07-30 14:31:26,903 INFO: Shortcut 'ScamWatch' already exists.
+2024-07-30 17:53:11,252 INFO: ScamWatch is running!
+2024-07-30 17:53:11,252 INFO: Attempting to restart with administrative privileges...
+2024-07-30 17:53:12,998 INFO: re-launching ScamWatch with admin privileges
+2024-07-30 17:53:13,004 INFO: Restarted with administrative privileges.
+2024-07-30 17:53:13,799 INFO: ScamWatch is running!
+2024-07-30 17:53:13,801 INFO: Checking for a Windows shortcut and creating one if needed
+2024-07-30 17:53:13,801 INFO: Blocking remote connection ports if needed...
+2024-07-30 17:53:13,801 INFO: Now monitoring for RCA applications. Don't worry, you're safe :)
+2024-07-30 17:53:13,822 INFO: Creating shortcut 'ScamWatch'...
+2024-07-30 17:53:13,822 INFO: one_time_connection function called
+2024-07-30 17:53:13,897 INFO: Shortcut 'ScamWatch' created successfully.
+2024-07-30 17:53:14,841 INFO: Monitoring paused.
+2024-07-30 17:53:24,841 INFO: Monitoring resumed.
+2024-07-30 17:53:47,437 INFO: Found process: QuickAssist.exe (pid: 6992)
+2024-07-30 17:53:47,442 INFO: Terminated process: QuickAssist.exe (pid: 6992)
+2024-07-30 17:53:48,144 ERROR: Failed to send email. Error: (421, b'4.3.2 Service not active [MW4PR04CA0337.namprd04.prod.outlook.com 2024-07-31T00:53:47.836Z 08DCB0BE1AAD1FB7]')
+2024-07-30 17:54:11,164 INFO: ScamWatch is running!
+2024-07-30 17:54:11,165 INFO: Attempting to restart with administrative privileges...
+2024-07-30 17:54:12,967 INFO: re-launching ScamWatch with admin privileges
+2024-07-30 17:54:12,967 INFO: Restarted with administrative privileges.
+2024-07-30 17:54:13,815 INFO: ScamWatch is running!
+2024-07-30 17:54:13,816 INFO: Checking for a Windows shortcut and creating one if needed
+2024-07-30 17:54:13,816 INFO: Blocking remote connection ports if needed...
+2024-07-30 17:54:13,819 INFO: Now monitoring for RCA applications. Don't worry, you're safe :)
+2024-07-30 17:54:13,844 INFO: Shortcut 'ScamWatch' already exists.
+2024-07-30 17:54:13,844 INFO: one_time_connection function called
+2024-07-30 17:54:14,860 INFO: Monitoring paused.
+2024-07-30 17:54:24,861 INFO: Monitoring resumed.

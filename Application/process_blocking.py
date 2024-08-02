@@ -3,14 +3,13 @@
 # It additionally provides a pop up to the user. This pop up should be made much better in the future.
 
 import psutil
-import ctypes
 import time
 import json
 import threading
 import logging
 from pause_manager import is_paused, set_pause
 from external_alerts import send_alert_email
-from ui_notification import show_custom_alert, alert_queue
+from ui_notification import alert_queue
 
 # Load exe name list
 def load_exe_names_from_json(file_path="config.json"):
@@ -70,7 +69,7 @@ def monitor_process():
     while True:
         if is_paused():
                 logging.info("Monitoring paused.")
-                time.sleep(30)  # Pause for 30 seconds for testing (change to 1800 for 30 minutes)
+                time.sleep(100)  # Pause for 10 seconds for testing (change to 1800 for 30 minutes)
                 set_pause(False)
                 logging.info("Monitoring resumed.")
         else:
