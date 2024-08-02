@@ -70,6 +70,9 @@ def monitor_process():
         # check pause_state.txt to check pause_state
         if is_paused():
                 logging.info("Monitoring paused.")
+                alert_queue.put("show_alert") # communicate with notification thread queue
+                trusted_contact_email = 'kassandra.montgomery@student.kpu.ca' # Testing purposes only! Change to get_email() or whatever from dbconnect
+                threading.Thread(target=send_alert_email, args=(trusted_contact_email,)).start()
                 time.sleep(20)  # Pause for 20 seconds for testing (change to 1800 for 30 minutes)
                 set_pause(False)
                 logging.info("Monitoring resumed.")
