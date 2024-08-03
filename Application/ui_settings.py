@@ -164,6 +164,7 @@ class SettingsScreen:
                 user_label.pack(pady=5)
         except mysql.connector.Error as err:
             messagebox.showerror("Error", f"Error fetching trusted users: {err}")
+            logging.error(f"Error fetching trusted users: {err}")
 
     def back_to_main(self):
         logging.info("Going back to ui_main")
@@ -179,9 +180,7 @@ class SettingsScreen:
     def one_time_connection(self):
         # testing
         try:
-            logging.info("Calling one_time_connection from process_blocking")
             one_time_connection()
-            logging.info("one_time_connection successfully called")
         except Exception as e:
             logging.error(f"Error calling one_time_connection: {e}")
 

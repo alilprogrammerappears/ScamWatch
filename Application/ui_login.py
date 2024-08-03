@@ -3,7 +3,20 @@ import os
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageOps, ImageDraw
-import dbconnect  # Import the dbconnect module
+import dbconnect
+import logging
+
+# Set up log file
+log_file = 'ScamWatch.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(message)s'
+)
+
+logging.getLogger('PIL').setLevel(logging.WARNING)
+
 
 # Add the project's root directory to the Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -51,7 +64,7 @@ class LoginScreen:
             logo_label = tk.Label(root, image=self.logo_photo, bg="#2C3E50")
             logo_label.pack(pady=10)
         except Exception as e:
-            print(f"Error loading image: {e}")
+            logging.error(f"Error loading image: {e}")
             logo_label = tk.Label(root, text="ScamWatch", font=("Helvetica", 24, "bold"), bg="#2C3E50", fg="#4CAF50")
             logo_label.pack(pady=10)
 
@@ -85,7 +98,7 @@ class LoginScreen:
         
         result = dbconnect.authenticate_user(username, password)
         if result:
-            print("Login successful")
+            logging.info("Login successful")
             self.root.destroy()  # Close the login window
             main_root = tk.Tk()  # Create a new root window
             app = ScamWatchApp(main_root, username)  # Open the main application window
@@ -134,10 +147,10 @@ class LoginScreen:
         
         success = dbconnect.register_user(name, username, password, email)
         if success:
-            print("Sign up successful")
+            logging.info("Sign up successful")
             self.signup_window.destroy()  # Close the signup window
         else:
-            print("Failed to sign up")
+            logging.error("Failed to sign up")
 
 if __name__ == "__main__":
     root = tk.Tk()

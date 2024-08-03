@@ -42,10 +42,6 @@ class ScamWatchApp:
         self.root.grid_columnconfigure(0, weight=1)
         self.root.grid_columnconfigure(1, weight=1)
 
-        # Title
-        # title = tk.Label(root, text="Keeping You Safe", font=("Helvetica", 22, "bold"), bg="#2C3E50", fg="#4CAF50")
-        # title.grid(row=0, column=0, columnspan=2, pady=10, padx=20, sticky="n")
-
         # Load and display image
         self.logo_image = Image.open("login_bg.png")
         self.logo_image = self.logo_image.resize((200, 200), Image.LANCZOS)
@@ -71,7 +67,6 @@ class ScamWatchApp:
         # Display the logged-in username
         username_button = ttk.Button(button_frame, text=f"User Name: {username}", command=self.show_profile)
         username_button.pack(pady=5)
-
         
         settings_button = ttk.Button(button_frame, text="Settings", command=self.open_settings)
         settings_button.pack(pady=5)
@@ -122,7 +117,7 @@ class ScamWatchApp:
 
     def log_out(self):
         # Log out functionality
-        print("Logging out...")
+        logging.info("Logging out...")
         self.root.destroy()  # Close the current window
         script_path = os.path.join(os.path.dirname(__file__), 'ui_login.py')
         subprocess.Popen(["python", script_path])  # Open the login window

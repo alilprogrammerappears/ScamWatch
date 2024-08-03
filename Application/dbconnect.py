@@ -1,5 +1,16 @@
 import mysql.connector
 from mysql.connector import Error
+import logging
+
+# Set up log file
+log_file = 'ScamWatch.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(message)s'
+)
+
 
 def create_connection():
     try:
@@ -13,7 +24,7 @@ def create_connection():
         if connection.is_connected():
             return connection
     except Error as e:
-        print(f"Error: {e}")
+        logging.error(f"Error: {e}")
         return None
 
 def authenticate_user(username, password):
@@ -26,7 +37,7 @@ def authenticate_user(username, password):
         connection.close()
         return result
     else:
-        print("Failed to connect to the database")
+        logging.error("Failed to connect to the database")
         return None
 
 def register_user(name, username, password, email):
@@ -39,12 +50,12 @@ def register_user(name, username, password, email):
             connection.commit()
             return True
         except Error as e:
-            print(f"Failed to sign up: {e}")
+            logging.error(f"Failed to sign up: {e}")
             return False
         finally:
             connection.close()
     else:
-        print("Failed to connect to the database")
+        logging.error("Failed to connect to the database")
         return False
 
 def get_user_info(username):
@@ -70,5 +81,5 @@ def get_trusted_email():
         connection.close()
         return trusted_email['email'] if trusted_email else None
     else:
-        print("Failed to connect to the database")
+        logging.error("Failed to connect to the database")
         return None

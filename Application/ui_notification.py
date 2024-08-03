@@ -13,8 +13,6 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)s: %(message)s'
 )
 
-logging.getLogger('PIL').setLevel(logging.WARNING)
-
 # Create a queue to communicate between threads
 alert_queue = queue.Queue()
 
