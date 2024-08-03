@@ -3,6 +3,15 @@ import subprocess
 import logging
 from elevate import is_admin
 
+# Set up log file
+log_file = 'ScamWatch.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(message)s'
+)
+
 # Load list of common remote connection ports
 def load_ports_from_json(file_path="config.json"):
     try:
@@ -56,10 +65,10 @@ def block_single_port(port):
                             f"name=Block Port {port}", "dir=in", "action=block", f"protocol=UDP",
                             f"localport={port}", f"remoteip=any"],
                         check=True)
-            print(f"Firewall rule added to block port {port}.")
+            logging.info(f"Firewall rule added to block port {port}.")
         
         except subprocess.CalledProcessError as e:
-            print(f"Failed to block port {port}: {e}")
+            logging.error(f"Failed to block port {port}: {e}")
 
 
 # unblock all ports from the ports list in config.json

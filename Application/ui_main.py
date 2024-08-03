@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageOps, ImageDraw
 from ui_settings import SettingsScreen
-from process_blocking import one_time_connection
 import logging
 import subprocess
 import os

@@ -2,9 +2,9 @@
 import threading
 import sys
 import logging
-from process_blocking import monitor_process, one_time_connection
+from process_blocking import monitor_process
 from elevate import is_admin, run_as_admin
-from port_blocking import block_all_ports
+from port_blocking import block_all_ports, unblock_all_ports
 from ui_windowsShortcut import check_and_create_shortcut
 
 
@@ -42,6 +42,11 @@ def scamwatch_main():
         logging.info(f"Blocking remote connection ports if needed...")
         port_blocking_thread = threading.Thread(target=block_all_ports)
         port_blocking_thread.start()
+
+        # To unblock all ports, comment out the above two lines and uncomment the following:
+        """ logging.info(f"Unblocking all ports")
+        unblock_ports_thread = threading.Thread(target=unblock_all_ports)
+        unblock_ports_thread.start() """
 
         # Begin monitoring processes for common RCA App exes
         logging.info(f"Now monitoring for RCA applications. Don't worry, you're safe :)")
