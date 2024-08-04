@@ -20,13 +20,14 @@
 <li>3.0 Technical Details</li>
 <ul>
 <li>3.1 Tech Stack</li>
-<li>3.2 Function Design</li>
+<li>3.2 Program Dependancies</li>
+<li>3.3 Function Design</li>
 <ul>
-<li>3.2.1 RCA Application Blocking</li>
-<li>3.2.2 Network Connection Blocking</li>
-<li>3.2.3 One-Time Connections</li>
-<li>3.2.4 Local and External Alerts</li>
-<li>3.2.5 GUI</li>
+<li>3.3.1 RCA Application Blocking</li>
+<li>3.3.2 Network Connection Blocking</li>
+<li>3.3.3 One-Time Connections</li>
+<li>3.3.4 Local and External Alerts</li>
+<li>3.3.5 GUI</li>
 </ul>
 </ul>
 </ul>
@@ -195,23 +196,36 @@ ScamWatch is a keystone project from four people: Anmol Mazoo, Arshdeep Singh, K
 ### 3.1 Tech Stack
 <p>ScamWatch has been created using Python, utilizing its abilities to easily work with Windows OS interactions and its extensive collection of libraries. This includes TKinter for the creation of a GUI. Additionally being used is AWS for a small relational database that will be used to store information such as user login.</p>
 
-### 3.2 Function Design
+### 3.2 Program Dependencies
+<p>To run properly, ScamWatch needs Python and a number of Python libraries to be installed on the user’s machine. Many of the libraries come pre-installed with Python, however some do not and need to be installed separately. Our recommendation is to use pip via the command line to install the following:</p>
+<ul>
+    <li>psutil</li>
+    <li>mysql</li>
+    <li>pillow</li>
+    <li>winshell</li>
+    <li>win32com</li>
+    <li>pythoncom</li>
+    <li>tkinter</li>
+</ul>
 
-#### 3.2.1 RCA Application Blocking
+
+### 3.3 Function Design
+
+#### 3.3.1 RCA Application Blocking
 
 <p>The RCA application blocking feature is fairly straight forward. Using the psutils Python library, it monitors the process manager for processes that match a list of exe names. If it finds one, it terminates that program. It runs on a cycle, so that it consistantly continues monitoring even after it has terminated a program. As some processes will have sub-processes under the same name, Anydesk is an example of this, to prevent the alert being triggered multiple times, the exe name is added to a set called "warned_processes" once it is terminated, which gets cleared at the end of each cycle.</p>
 
 <p>Some processes use administrative privileges, for example, TeamViewer. In order to interact with them, ScamWatch also needs administrative privileges. Due to this, as soon as ScamWatch starts up, it does a check to see if it has started with elevated privileges and if it didn't, attempts to re-start itself.</p>
 <br>
 
-#### 3.2.2 Network Connection Blocking
+#### 3.3.2 Network Connection Blocking
 
 <p>In addition to blocking RCA applications from running, ScamWatch additionally attempts to block remote access network connections. Rather than continuously monitoring incoming packets however, ScamWatch adjusts firewall settings to block specific network ports that are commonly used by RCA applications. For example, ports 3389, 5938, 5900, and 6568. While it is true that future RCA applications may decide to use different ports, this will provide an extra layer of protection against commonly used remote access ports and the list may easily be updated in the future. Furthermore, this allows for legitimate connections and simplifies the process.</p>
 
 <p>Similarly to the RCA app blocking function, adjusting firewall settings requires administrative privileges.</p>
 <br>
 
-#### 3.2.3 One-Time Connections
+#### 3.3.3 One-Time Connections
 
 <p>As there are legitimate situations where a user may need someone to remotely access their computer, ScamWatch has the ability to allow a one-time connection. As the purpose of ScamWatch is to prevent these connections however, the connection allowance times out after 30 minutes. Furthermore, the user can access this setting only after they enter a password and an alert is trigged locally as well as sent to their trusted contact (if added).</p>
 
@@ -221,7 +235,7 @@ ScamWatch is a keystone project from four people: Anmol Mazoo, Arshdeep Singh, K
 
 <br>
 
-#### 3.2.4 Local and External Alerts
+#### 3.3.4 Local and External Alerts
 
 <p><b><u>I don't know how this works yet other than a pop up being triggered when a connection happens or an RCA app is detected.</u></b></p>
 <br>
