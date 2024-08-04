@@ -47,7 +47,7 @@ class LoginScreen:
 
         # Load and display image
         try:
-            self.logo_image = Image.open("login bg.png")
+            self.logo_image = Image.open("login_bg.png")
             self.logo_image = self.logo_image.resize((100, 100), Image.LANCZOS)
 
             # Create a circular mask
