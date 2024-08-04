@@ -22,7 +22,7 @@ def check_and_create_shortcut():
 
     # Define the shortcut name and target file
     shortcut_name = "ScamWatch"
-    script_file = "ui_main.py"
+    script_file = "ui_login.py"
 
     # Path to icon file
     icon_file = "shortcut_icon.ico"

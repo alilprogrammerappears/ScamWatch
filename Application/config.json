@@ -75,7 +75,7 @@
     "scamwatch_email": "scamwatchalerts@outlook.com",
     "scamwatch_password": "hhddjsmxdreqpkpi",
     "subject": "ScamWatch Alert: Remote Access Attempt Detected",
-    "message_body": "To Whom it May Concern,\n\nWe would like to inform you that a remote access attempt has been detected on [Relative's Name]’s system. This may be the result of a scam and We recommend reaching out to them to ensure they are safe.\n\nHave a wonderful day!\n- Your Friends at ScamWatch"
+    "message_body": "To Whom it May Concern,\n\nWe would like to inform you that a remote access attempt has been detected on your family member/friend's system. This may be the result of a scam and We recommend reaching out to them to ensure they are safe.\n\nHave a wonderful day!\n- Your Friends at ScamWatch"
 
 }
 
