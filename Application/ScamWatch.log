@@ -402,3 +402,113 @@
 2024-08-01 21:21:27,895 INFO: one_time_connection successfully called
 2024-08-01 21:21:28,468 INFO: Monitoring paused.
 2024-08-01 21:22:24,404 INFO: Going back to ui_main
+2024-08-05 15:56:55,813 ERROR: Error loading image: image "pyimage1" doesn't exist
+2024-08-05 15:57:11,897 DEBUG: Building SSL context
+2024-08-05 15:57:11,949 DEBUG: Switching to SSL
+2024-08-05 15:57:12,213 DEBUG: SSL has been enabled
+2024-08-05 15:57:12,213 DEBUG: Starting authorization phase
+2024-08-05 15:57:12,213 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 15:57:12,213 INFO: package: mysql.connector.plugins
+2024-08-05 15:57:12,213 INFO: plugin_name: mysql_native_password
+2024-08-05 15:57:12,219 INFO: AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-08-05 15:57:12,409 DEBUG: mysql_native_password completed succesfully
+2024-08-05 15:57:13,133 INFO: Login successful
+2024-08-05 16:00:22,973 DEBUG: Building SSL context
+2024-08-05 16:00:23,004 DEBUG: Switching to SSL
+2024-08-05 16:00:23,281 DEBUG: SSL has been enabled
+2024-08-05 16:00:23,281 DEBUG: Starting authorization phase
+2024-08-05 16:00:23,281 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 16:00:23,485 DEBUG: mysql_native_password completed succesfully
+2024-08-05 16:00:37,513 DEBUG: Building SSL context
+2024-08-05 16:00:37,547 DEBUG: Switching to SSL
+2024-08-05 16:00:37,826 DEBUG: SSL has been enabled
+2024-08-05 16:00:37,826 DEBUG: Starting authorization phase
+2024-08-05 16:00:37,826 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 16:00:38,025 DEBUG: mysql_native_password completed succesfully
+2024-08-05 16:01:05,776 DEBUG: Building SSL context
+2024-08-05 16:01:05,807 DEBUG: Switching to SSL
+2024-08-05 16:01:06,083 DEBUG: SSL has been enabled
+2024-08-05 16:01:06,083 DEBUG: Starting authorization phase
+2024-08-05 16:01:06,084 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 16:01:06,288 DEBUG: mysql_native_password completed succesfully
+2024-08-05 16:49:14,723 ERROR: Error loading image: image "pyimage1" doesn't exist
+2024-08-05 16:49:34,086 ERROR: Error loading image: image "pyimage1" doesn't exist
+2024-08-05 16:49:42,418 DEBUG: Building SSL context
+2024-08-05 16:49:42,452 DEBUG: Switching to SSL
+2024-08-05 16:49:42,727 DEBUG: SSL has been enabled
+2024-08-05 16:49:42,727 DEBUG: Starting authorization phase
+2024-08-05 16:49:42,727 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 16:49:42,728 INFO: package: mysql.connector.plugins
+2024-08-05 16:49:42,728 INFO: plugin_name: mysql_native_password
+2024-08-05 16:49:42,728 INFO: AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-08-05 16:49:42,930 DEBUG: mysql_native_password completed succesfully
+2024-08-05 16:49:43,649 INFO: Login successful
+2024-08-05 16:54:39,315 ERROR: Error loading image: image "pyimage1" doesn't exist
+2024-08-05 16:54:49,207 DEBUG: Building SSL context
+2024-08-05 16:54:49,240 DEBUG: Switching to SSL
+2024-08-05 16:54:49,517 DEBUG: SSL has been enabled
+2024-08-05 16:54:49,517 DEBUG: Starting authorization phase
+2024-08-05 16:54:49,517 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 16:54:49,517 INFO: package: mysql.connector.plugins
+2024-08-05 16:54:49,517 INFO: plugin_name: mysql_native_password
+2024-08-05 16:54:49,518 INFO: AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-08-05 16:54:49,719 DEBUG: mysql_native_password completed succesfully
+2024-08-05 16:54:50,436 INFO: Login successful
+2024-08-05 16:54:54,209 INFO: one_time_connection function called
+2024-08-05 16:54:59,242 DEBUG: Building SSL context
+2024-08-05 16:54:59,272 DEBUG: Switching to SSL
+2024-08-05 16:54:59,551 DEBUG: SSL has been enabled
+2024-08-05 16:54:59,551 DEBUG: Starting authorization phase
+2024-08-05 16:54:59,551 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 16:54:59,755 DEBUG: mysql_native_password completed succesfully
+2024-08-05 17:22:35,939 ERROR: Error loading image: image "pyimage1" doesn't exist
+2024-08-05 17:22:43,757 DEBUG: Building SSL context
+2024-08-05 17:22:43,793 DEBUG: Switching to SSL
+2024-08-05 17:22:44,064 DEBUG: SSL has been enabled
+2024-08-05 17:22:44,064 DEBUG: Starting authorization phase
+2024-08-05 17:22:44,064 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 17:22:44,064 INFO: package: mysql.connector.plugins
+2024-08-05 17:22:44,064 INFO: plugin_name: mysql_native_password
+2024-08-05 17:22:44,065 INFO: AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-08-05 17:22:44,268 DEBUG: mysql_native_password completed succesfully
+2024-08-05 17:22:44,985 INFO: Login successful
+2024-08-05 17:25:38,142 ERROR: Error loading image: image "pyimage1" doesn't exist
+2024-08-05 17:25:46,130 DEBUG: Building SSL context
+2024-08-05 17:25:46,161 DEBUG: Switching to SSL
+2024-08-05 17:25:46,438 DEBUG: SSL has been enabled
+2024-08-05 17:25:46,438 DEBUG: Starting authorization phase
+2024-08-05 17:25:46,438 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 17:25:46,439 INFO: package: mysql.connector.plugins
+2024-08-05 17:25:46,439 INFO: plugin_name: mysql_native_password
+2024-08-05 17:25:46,439 INFO: AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-08-05 17:25:46,641 DEBUG: mysql_native_password completed succesfully
+2024-08-05 17:25:47,358 INFO: Login successful
+2024-08-05 17:28:45,231 INFO: Going back to ui_main
+2024-08-05 17:28:57,752 ERROR: Error loading image: image "pyimage1" doesn't exist
+2024-08-05 17:29:06,628 DEBUG: Building SSL context
+2024-08-05 17:29:06,659 DEBUG: Switching to SSL
+2024-08-05 17:29:06,937 DEBUG: SSL has been enabled
+2024-08-05 17:29:06,937 DEBUG: Starting authorization phase
+2024-08-05 17:29:06,937 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 17:29:06,937 INFO: package: mysql.connector.plugins
+2024-08-05 17:29:06,937 INFO: plugin_name: mysql_native_password
+2024-08-05 17:29:06,937 INFO: AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-08-05 17:29:07,140 DEBUG: mysql_native_password completed succesfully
+2024-08-05 17:29:07,858 INFO: Login successful
+2024-08-05 17:54:14,410 ERROR: Error loading image: image "pyimage1" doesn't exist
+2024-08-05 17:54:21,625 DEBUG: Building SSL context
+2024-08-05 17:54:21,671 DEBUG: Switching to SSL
+2024-08-05 17:54:21,933 DEBUG: SSL has been enabled
+2024-08-05 17:54:21,933 DEBUG: Starting authorization phase
+2024-08-05 17:54:21,933 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 17:54:21,933 INFO: package: mysql.connector.plugins
+2024-08-05 17:54:21,933 INFO: plugin_name: mysql_native_password
+2024-08-05 17:54:21,938 INFO: AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-08-05 17:54:22,137 DEBUG: mysql_native_password completed succesfully
+2024-08-05 17:54:22,854 INFO: Login successful
+2024-08-05 17:54:35,654 DEBUG: Building SSL context
+2024-08-05 17:54:35,682 DEBUG: Switching to SSL
+2024-08-05 17:54:35,962 DEBUG: SSL has been enabled
+2024-08-05 17:54:35,962 DEBUG: Starting authorization phase
+2024-08-05 17:54:35,962 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 17:54:36,166 DEBUG: mysql_native_password completed succesfully

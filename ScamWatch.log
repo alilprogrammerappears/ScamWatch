@@ -1,0 +1,13 @@
+2024-08-05 17:22:05,026 INFO: Configuration file not found. Using default settings.
+2024-08-05 17:22:17,179 INFO: Configuration file not found. Using default settings.
+2024-08-05 17:22:17,213 ERROR: Error loading image: [Errno 2] No such file or directory: 'C:\\Users\\anmol\\Documents\\KPU\\SW AUG\\ScamWatch\\login_bg.png'
+2024-08-05 17:22:26,962 DEBUG: Building SSL context
+2024-08-05 17:22:26,994 DEBUG: Switching to SSL
+2024-08-05 17:22:27,271 DEBUG: SSL has been enabled
+2024-08-05 17:22:27,271 DEBUG: Starting authorization phase
+2024-08-05 17:22:27,272 DEBUG: The provided initial strategy is mysql_native_password
+2024-08-05 17:22:27,274 INFO: package: mysql.connector.plugins
+2024-08-05 17:22:27,274 INFO: plugin_name: mysql_native_password
+2024-08-05 17:22:27,275 INFO: AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-08-05 17:22:27,474 DEBUG: mysql_native_password completed succesfully
+2024-08-05 17:22:28,192 INFO: Login successful

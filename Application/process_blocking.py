@@ -1,7 +1,3 @@
-# This file is for the following ScamWatch functions: Monitor processes and block the exe from running.
-
-# It additionally provides a pop up to the user. This pop up should be made much better in the future.
-
 import psutil
 import time
 import json
@@ -10,6 +6,7 @@ import logging
 from pause_manager import is_paused, set_pause
 from external_alerts import send_alert_email
 from ui_notification import alert_queue
+from dbconnect import get_trusted_emails 
 
 # Load exe name list
 def load_exe_names_from_json(file_path="config.json"):
@@ -39,9 +36,8 @@ def check_for_processes(process_names_set):
             continue
     return found_processes
 
-
 # Terminate the Process
-def block_process(process, warned_processes):
+def block_process(process, warned_processes, trusted_emails):
 
     try:
         if process.info['name'].lower() not in warned_processes:
@@ -50,8 +46,8 @@ def block_process(process, warned_processes):
             # Allow the process to terminate
             process.wait()
             alert_queue.put("show_alert") # communicate with notification thread queue
-            trusted_contact_email = 'kassandra.montgomery@student.kpu.ca' # Testing purposes only! Change to get_email() or whatever from dbconnect
-            threading.Thread(target=send_alert_email, args=(trusted_contact_email,)).start()
+            for email in trusted_emails:
+                threading.Thread(target=send_alert_email, args=(email,)).start()
             warned_processes.add(process.info['name'].lower())
     except psutil.NoSuchProcess:
         # In case the process has already been terminated
@@ -61,25 +57,26 @@ def block_process(process, warned_processes):
         logging.error(f"Access denied for terminating process: {process.info['name']} (pid: {process.pid}). Scamwatch needs elevated privileges")
 
 # Continiously monitor process list
-def monitor_process():
+def monitor_process(current_user_id):
 
     # Set to keep track of warned pids
     warned_processes = set()
+    trusted_emails = get_trusted_emails(current_user_id)
 
     while True:
         # check pause_state.txt to check pause_state
         if is_paused():
-                logging.info("Monitoring paused.")
-                alert_queue.put("show_alert") # communicate with notification thread queue
-                trusted_contact_email = 'kassandra.montgomery@student.kpu.ca' # Testing purposes only! Change to get_email() or whatever from dbconnect
-                threading.Thread(target=send_alert_email, args=(trusted_contact_email,)).start()
-                time.sleep(1800)  # Pause for 30 minutes/1800 seconds
-                set_pause(False)
-                logging.info("Monitoring resumed.")
+            logging.info("Monitoring paused.")
+            alert_queue.put("show_alert") # communicate with notification thread queue
+            for email in trusted_emails:
+                threading.Thread(target=send_alert_email, args=(email,)).start()
+            time.sleep(1800)  # Pause for 30 minutes/1800 seconds
+            set_pause(False)
+            logging.info("Monitoring resumed.")
         else:
             processes = check_for_processes(EXE_NAME_SET)
             for process in processes:
-                block_process(process, warned_processes)
+                block_process(process, warned_processes, trusted_emails)
             time.sleep(1)
             warned_processes.clear()  # Clear set each cycle to allow for new warnings
 

@@ -5,6 +5,7 @@ import os
 import subprocess
 from process_blocking import one_time_connection
 import logging
+from dbconnect import get_trusted_emails
 
 # Set up log file
 log_file = 'ScamWatch.log'
@@ -63,6 +64,7 @@ class AddTrustedUserDialog(simpledialog.Dialog):
             messagebox.showinfo("Info", "Trusted user added successfully!")
         except mysql.connector.Error as err:
             messagebox.showerror("Error", f"Error adding trusted user: {err}")
+            logging.error(f"Error adding trusted user: {err}")
 
 class SettingsScreen:
     def __init__(self, root, current_user_id):
@@ -110,7 +112,7 @@ class SettingsScreen:
         account_inner_frame = tk.Frame(account_settings_frame, bg="#2C3E50")
         account_inner_frame.pack(fill="x")
 
-        change_password_button = ttk.Button(account_inner_frame, text="Change Password")
+        change_password_button = ttk.Button(account_inner_frame, text="Change Password (BETA)", command=self.change_password)
         change_password_button.pack(padx=10, pady=10)
 
         # Privacy Policy
@@ -124,10 +126,6 @@ class SettingsScreen:
         privacy_policy_content.insert(tk.END, "Scamwatch serves to protect you against potential scammers trying to access your system via remote computer connection apps.\n\nWe value your privacy and protect your personal information.\n\nOur policies are designed to safeguard your data and maintain your trust.")
         privacy_policy_content.pack(padx=10, pady=10)
         privacy_policy_content.config(state=tk.DISABLED)  # Make the text read-only
-
-        # Back to Main Screen Button
-        back_button = ttk.Button(root, text="Back to Main Screen", command=self.back_to_main)
-        back_button.pack(side="bottom", anchor="w", padx=10, pady=10)
 
         # Logout Button
         logout_button = ttk.Button(root, text="Logout", command=self.logout)
@@ -166,19 +164,15 @@ class SettingsScreen:
             messagebox.showerror("Error", f"Error fetching trusted users: {err}")
             logging.error(f"Error fetching trusted users: {err}")
 
-    def back_to_main(self):
-        logging.info("Going back to ui_main")
-        self.root.destroy()
-        script_path = os.path.join(os.path.dirname(__file__), 'ui_main.py')
-        subprocess.Popen(["python", script_path])
-
     def logout(self):
         self.root.destroy()
         script_path = os.path.join(os.path.dirname(__file__), 'ui_login.py')
         subprocess.Popen(["python", script_path])
 
+    def change_password(self):
+        messagebox.showinfo("Info", "Change Password feature is under development.")
+
     def one_time_connection(self):
-        # testing
         try:
             one_time_connection()
         except Exception as e:

@@ -11,7 +11,6 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)s: %(message)s'
 )
 
-
 def create_connection():
     try:
         connection = mysql.connector.connect(
@@ -71,15 +70,15 @@ def get_user_info(username):
         print("Failed to connect to the database")
         return None
 
-def get_trusted_email():
+def get_trusted_emails(user_id):
     connection = create_connection()
     if connection:
         cursor = connection.cursor(dictionary=True)
-        query = "SELECT email FROM trusted_users LIMIT 1"  # Modify query as needed
-        cursor.execute(query)
-        trusted_email = cursor.fetchone()
+        query = "SELECT email FROM trustedusers WHERE user_id = %s"
+        cursor.execute(query, (user_id,))
+        emails = [row['email'] for row in cursor.fetchall()]
         connection.close()
-        return trusted_email['email'] if trusted_email else None
+        return emails
     else:
         logging.error("Failed to connect to the database")
-        return None
+        return []
