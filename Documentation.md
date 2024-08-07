@@ -20,8 +20,7 @@
 <li>3.0 Technical Details</li>
 <ul>
 <li>3.1 Tech Stack</li>
-<li>3.2 Program Dependancies</li>
-<li>3.3 Function Design</li>
+<li>3.2 Function Design</li>
 <ul>
 <li>3.3.1 RCA Application Blocking</li>
 <li>3.3.2 Network Connection Blocking</li>
@@ -63,7 +62,21 @@ ScamWatch is a keystone project from four people: Anmol Mazoo, Arshdeep Singh, K
 <p>For example, for ScamWatch to run on start-up, it needs to be scheduled as a recurring task in the Windows Task Scheduler.</p>
 <p>A future goal is to eliminate this need for set up, however that is restricted by our time and developer restraints as outlined in section 2.4. For more future plans and possibilities, please see section 2.5.</p>
 
-#### 2.1.1 Running ScamWatch on Start-up
+#### 2.1.1 Program Dependencies
+<p>To run properly, ScamWatch needs Python and a number of Python libraries to be installed on the user’s machine. Many of the libraries come pre-installed with Python, however some do not and need to be installed separately. Our recommendation is to use pip via the command line to install the following:</p>
+<ul>
+    <li>psutil</li>
+    <li>mysql</li>
+    <li>pillow</li>
+    <li>winshell</li>
+    <li>win32com</li>
+    <li>pythoncom</li>
+    <li>tkinter</li>
+</ul>
+
+<br>
+
+#### 2.1.2 Running ScamWatch on Start-up
 <p>To have ScamWatch run when the user's computer starts up, which is the highly recommended way to have ScamWatch run, users will need to create a scheduled task in the Windows Task Scheduler.</p>
 
 <p>While this may seem daunting at first, don't worry - we're here to walk you through it!</p>
@@ -185,62 +198,56 @@ ScamWatch is a keystone project from four people: Anmol Mazoo, Arshdeep Singh, K
 
 <br>
 
-### 2.5 Future Work
-
-
-<br>
-
 ## 3.0 Technical Details
 <p>This section will go through how exactly ScamWatch works and what it's built on.</p>
 
 ### 3.1 Tech Stack
 <p>ScamWatch has been created using Python, utilizing its abilities to easily work with Windows OS interactions and its extensive collection of libraries. This includes TKinter for the creation of a GUI. Additionally being used is AWS for a small relational database that will be used to store information such as user login.</p>
 
-### 3.2 Program Dependencies
-<p>To run properly, ScamWatch needs Python and a number of Python libraries to be installed on the user’s machine. Many of the libraries come pre-installed with Python, however some do not and need to be installed separately. Our recommendation is to use pip via the command line to install the following:</p>
-<ul>
-    <li>psutil</li>
-    <li>mysql</li>
-    <li>pillow</li>
-    <li>winshell</li>
-    <li>win32com</li>
-    <li>pythoncom</li>
-    <li>tkinter</li>
-</ul>
-
 
 ### 3.3 Function Design
 
 #### 3.3.1 RCA Application Blocking
 
-<p>The RCA application blocking feature is fairly straight forward. Using the psutils Python library, it monitors the process manager for processes that match a list of exe names. If it finds one, it terminates that program. It runs on a cycle, so that it consistantly continues monitoring even after it has terminated a program. As some processes will have sub-processes under the same name, Anydesk is an example of this, to prevent the alert being triggered multiple times, the exe name is added to a set called "warned_processes" once it is terminated, which gets cleared at the end of each cycle.</p>
+<p>The RCA application blocking feature is fairly straight forward. Using the psutils Python library, it monitors the process manager for processes that match a list of exe names. If it finds one, it terminates that program. It runs on a cycle, so that it consistently continues monitoring even after it has terminated a program. As some processes will have sub-processes under the same name, Anydesk is an example of this, to prevent the alert being triggered multiple times, the exe name is added to a set called "warned_processes" once it is terminated, which gets cleared at the end of each cycle.</p>
+<p>Some processes use administrative privileges, for example, TeamViewer. To interact with them, ScamWatch also needs administrative privileges. Due to this, as soon as ScamWatch starts up, it does a check to see if it has started with elevated privileges and if it didn't, attempts to re-start itself.</p>
 
-<p>Some processes use administrative privileges, for example, TeamViewer. In order to interact with them, ScamWatch also needs administrative privileges. Due to this, as soon as ScamWatch starts up, it does a check to see if it has started with elevated privileges and if it didn't, attempts to re-start itself.</p>
 <br>
 
 #### 3.3.2 Network Connection Blocking
 
-<p>In addition to blocking RCA applications from running, ScamWatch additionally attempts to block remote access network connections. Rather than continuously monitoring incoming packets however, ScamWatch adjusts firewall settings to block specific network ports that are commonly used by RCA applications. For example, ports 3389, 5938, 5900, and 6568. While it is true that future RCA applications may decide to use different ports, this will provide an extra layer of protection against commonly used remote access ports and the list may easily be updated in the future. Furthermore, this allows for legitimate connections and simplifies the process.</p>
+<p>In addition to blocking RCA applications from running, ScamWatch additionally attempts to block remote access network connections. Due to the developers’ ability restraint mentioned previously, we decided to adjust firewall settings to block common RCA ports, such as ports 3389, 5938, 5900, and 6568, rather than continuously monitor incoming network packets as determining how to identify which packets are “suspicious” is beyond our current abilities. Similarly to the RCA app blocking function, adjusting firewall settings requires administrative privileges.</p>
 
-<p>Similarly to the RCA app blocking function, adjusting firewall settings requires administrative privileges.</p>
+<p>Unfortunately, our research and implementation uncovered that popular RCA applications will use other ports that we should not block, the main example being 80 (HTTP) and 443 (HTTPS). Applications such as TeamViewer will attempt to use their own port, however if they are unable to, will use ports such as HTTP to make the connection, although it may be more unstable.</p>
+
+<p>This does not make this feature useless, however. Continuing with the TeamViewer example, their iOS and Windows mobile apps do not use ports 80 or 443 and therefore would be blocked. Further, using an HTTP port makes the connection less reliable, slower, and the ability to automatically re-connect is lost. (TeamViewer, 2023). Due to this, we believe this function still adds value to the application and is one of the major aspects we would like to improve upon in the future.</p>
+
 <br>
 
 #### 3.3.3 One-Time Connections
 
-<p>As there are legitimate situations where a user may need someone to remotely access their computer, ScamWatch has the ability to allow a one-time connection. As the purpose of ScamWatch is to prevent these connections however, the connection allowance times out after 30 minutes. Furthermore, the user can access this setting only after they enter a password and an alert is trigged locally as well as sent to their trusted contact (if added).</p>
+<p>As there are legitimate situations where a user may need someone to remotely access their computer, ScamWatch has the ability to allow a one-time connection. As the purpose of ScamWatch is to prevent these connections however, the connection allowance times out after 30 minutes. Furthermore, an alert is trigged locally as well as sent to their trusted contact.</p>
 
-<p>The one-time connection feature essentially pauses the application. It stops the process monitoring for a period of time to allow for the use of an RCA application. Currently, the time is set to 30 minutes.</p>
+<p>The one-time connection feature essentially pauses the application. It stops the process monitoring for a short period of time to allow for the use of an RCA application. Currently, the time is set to 30 minutes.</p>
 
-<p>**NOTE**: In order for the One Time Connection to work, scamwatch.py <b>must</b> be running. If ScamWatch has been configured to start on computer start-up, it will automatically be running. This is something that will be improved upon in the future. For more information, refer to section 2.5: Future Work.</p>
+<p>For the One Time Connection to work, scamwatch.py must be running. In a normal use case, ScamWatch would be configured to start on computer start-up and therefore the script would automatically be running, however if it has not, then the one-time connection will not work. This is a current limitation of the application.</p>
+
+<p>We had hoped to add a check in the GUI code files that checks if the main script is running and starts it if it is not, however the process name in the task manager needs to be specific. Changing it via the Python libraries, multiprocessing and setproctitle, did not work. While we could simply have the GUI code run the backend code, without a check, it would only create more instances if the main script is already running, causing issues such as an alert being triggered multiple times. As it stands, the only way to implement this is to package ScamWatch as an executable, which is something we would like to do in the future</p>
+
 
 <br>
 
 #### 3.3.4 Local and External Alerts
+<p>
+Alerts are a vital part of ScamWatch as they make both the user and someone the user trusts aware that the user may be involved with a scammer. We have implemented two types of alerts: local, through a window pop-up on the user’s computer, and external, through email. By notifying someone externally, for example, the user’s son or daughter, it ensures that their trusted contact is aware and urged to check in on the user to make sure they are okay.</p>
 
-<p><b><u>I don't know how this works yet other than a pop up being triggered when a connection happens or an RCA app is detected.</u></b></p>
+<p>The alert pop-up is implemented through Python’s Tkinter module and is triggered when ScamWatch either terminates a RCA application or a one-time connection is allowed. The alert makes the user aware that it may be a scam, that their trusted contact has been contacted, and directs them to ScamWatch’s knowledgebase to learn more.</p>
+
+<p>The email alert uses Python’s email MIME and smtp module. It sends an email through a Microsoft outlook server to the user’s trusted contact, if they have one set. The trusted contact value is collected through a database query. If it does not send either due to no trusted contact or a server issue, it simply logs the error and does not interrupt the other program operations. Similar to the local alert, it is also triggered when an RCA application is blocked or a one-time connection occurs. The email message prompts the recipient that the user may be in contact with a scammer and urges them to contact them to make sure that they are safe.</p>
+
 <br>
 
 #### 3.2.5 GUI
 
-<p><b><u>I don't know how this works yet other than it uses TKinter (a framework that I don't know how to pronounce. T-K-inter? TehKinter?</u></b></p>
+<p>While a user interface is not necessary for ScamWatch to monitor for RCA applications or block ports, it is necessary to show a knowledgebase, allow a user to create an account and add a trusted contact, and to trigger a one-time connection. We implemented a basic GUI using Python’s Tkinter library and includes a main screen with our logo, which is shown on the front page of this report; a user profile screen; a login and signup screen; a settings screen, which is where the one-time connection button is located; and a knowledgebase screen, which provides users with links to helpful resources. The GUI can be accessed by opening the ScamWatch shortcut in the Windows menu, which ScamWatch checks for and creates during start-up. Alternatively, it can simply be starting by running “ui_login.py” from the command line.</p>
 <br>

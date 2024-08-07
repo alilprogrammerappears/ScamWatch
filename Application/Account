@@ -1,7 +1,17 @@
-#implementing account class
+# This file is for user accounts to interact with the database
 
 import mysql.connector 
 from mysql.connector import Error
+import logging
+
+# Set up log file
+log_file = 'ScamWatch.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(message)s'
+)
 
 class Account:
     def __init__(self, db_config):
@@ -13,7 +23,7 @@ class Account:
             if connection.is_connected():
                 return connection
         except Error as e:
-            print(f"Error connecting to MySQL database: {e}")
+            logging.error(f"Error connecting to MySQL database: {e}")
             return None
 
     def change_username(self, user_id, new_username):
@@ -58,23 +68,23 @@ class Account:
         except Error as e:
             print(f"Error updating email: {e}")
 
-# Usage example
+
 if __name__ == "__main__":
     db_config = {
-        'host': 'scamwatch.c9eg4kuesca7.us-east-2.rds.amazonaws.com',
+        'host': 'swatch.cvuie4ieiptg.us-east-2.rds.amazonaws.com',
         'port': 3306,
-        'user': 'SWadmin',
+        'user': 'admin',
         'password': 'scamwatch',
         'database': 'scamwatch_users'
     }
 
     account = Account(db_config)
 
-    # Change username example
-    account.change_username(1, 'SWadmin')
+    # Change username
+    account.change_username(1, 'admin')
 
-    # Change password example
+    # Change password
     account.change_password(1, 'scamwatch')
 
-    # Change email example
+    # Change email
     account.change_email(1, 'anmolmazoo@yahoo.com')

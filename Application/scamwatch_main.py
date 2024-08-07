@@ -1,4 +1,5 @@
-# This is the main executable for ScamWatch.
+# This is the main executable for the backend of ScamWatch!
+
 import threading
 import sys
 import logging
@@ -33,7 +34,7 @@ def scamwatch_main():
     
     try:
 
-        # Check and create a windows shortcut before ex
+        # Check and create a windows shortcut
         logging.info("Checking for a Windows shortcut and creating one if needed")
         shortcut_thread = threading.Thread(target=check_and_create_shortcut)
         shortcut_thread.start()
@@ -43,7 +44,7 @@ def scamwatch_main():
         port_blocking_thread = threading.Thread(target=block_all_ports)
         port_blocking_thread.start()
 
-        # To unblock all ports, comment out the above two lines and uncomment the following:
+        # To quickly unblock all ports, comment out the above two lines and uncomment the following:
         """ logging.info(f"Unblocking all ports")
         unblock_ports_thread = threading.Thread(target=unblock_all_ports)
         unblock_ports_thread.start() """

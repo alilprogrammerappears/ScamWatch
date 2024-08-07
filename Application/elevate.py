@@ -1,5 +1,5 @@
-# An error can occur in which some processes require elevated privileges to be terminated, which
-# ScamWatch does not have. This file checks if it is running with admin privileges and if not,
+# Some processes require elevated privileges to be terminated.
+# This file checks if it is running with admin privileges and if not,
 # tries to restart itself with privileges.
 
 import ctypes
@@ -18,7 +18,7 @@ def run_as_admin():
         return True
 
     try:
-        # Re-launch the program with admin rights and add a flag
+        # Relaunch the program with admin rights and add a flag
         params = ' '.join([os.path.abspath(sys.argv[0])] + sys.argv[1:] + ["--elevated"])
         ctypes.windll.shell32.ShellExecuteW(
             None, "runas", sys.executable, params, None, 1)

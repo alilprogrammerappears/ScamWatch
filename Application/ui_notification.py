@@ -29,6 +29,7 @@ def show_custom_alert():
         try:
             # Check the queue for new messages
             message = alert_queue.get_nowait()
+
             if message == "show_alert":
                 alert_window = tk.Toplevel(root)
                 alert_window.title("ScamWatch Alert")
@@ -81,7 +82,6 @@ def open_knowledge_base(parent_window):
     kb_label = ttk.Label(kb_window, text=kb_message, wraplength=550, background="#2C3E50", foreground="#4CAF50", font=("Helvetica", 12))
     kb_label.pack(pady=20, padx=20)
 
-    # Define the links
     links = [
         ("Anydesk - Abuse prevention", "https://anydesk.com/en/abuse-prevention"),
         ("Remote access scams - All you need to know", "https://goabacus.com/remote-access-scams-everything-you-need-to-know-to-avoid-falling-for-one/"),

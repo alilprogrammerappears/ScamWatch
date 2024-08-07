@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import ttk
 import webbrowser
 import logging
 from PIL import Image, ImageTk, ImageOps, ImageDraw
@@ -13,6 +12,7 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)s: %(message)s'
 )
 
+# set logging output from pillow to only be warnings instead of logging EVERYTHING
 logging.getLogger('PIL').setLevel(logging.WARNING)
 
 

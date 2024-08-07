@@ -13,7 +13,7 @@ logging.basicConfig(
 
 
 # write pause state from shared file
-# shared file used to communicate between GUI and backend
+# shared file is used to communicate between GUI and backend
 PAUSE_FILE = "pause_state.txt"
 
 def set_pause(state):

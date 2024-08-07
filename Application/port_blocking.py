@@ -72,8 +72,8 @@ def block_single_port(port):
 
 
 # unblock all ports from the ports list in config.json
-# this is essentially just to fix things quickly if it gets fucked up.
-# Maybe remove this in the final product and leave unblock_one_port()
+# this is essentially just to fix things quickly for testing, demonstration, or for any errors.
+# functionality is available, but commented out, in scamwatch_main.py
 def unblock_all_ports():
 
     if not is_admin():
@@ -135,7 +135,6 @@ def check_port_blocked(port):
 
 
 # checks if all of the ports from the ports list in config.json are blocked
-# prints result
 def check_all_ports_blocked():
 
     logging.info("Checking blocked status for ports in PORTS_SET:")

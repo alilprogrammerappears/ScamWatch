@@ -67,7 +67,7 @@ def get_user_info(username):
         connection.close()
         return user_info
     else:
-        print("Failed to connect to the database")
+        logging.error("Failed to connect to the database")
         return None
 
 def get_trusted_emails(user_id):

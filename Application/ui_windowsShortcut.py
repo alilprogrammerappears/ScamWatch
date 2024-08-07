@@ -32,12 +32,12 @@ def check_and_create_shortcut():
     script_path = os.path.join(current_directory, script_file)
     icon_path = os.path.join(current_directory, icon_file)
 
-    # Get python executable and use pythonw to not open a terminal
+    # Get python executable and use pythonw so it doesn't open a terminal
     python_executable = sys.executable
     pythonw_executable = python_executable.replace('python.exe', 'pythonw.exe')
     
     if not os.path.isfile(pythonw_executable):
-        #Fallback if pythonw.exe is not in the same directory
+        # Fallback if pythonw.exe is not in the same directory
         pythonw_executable = 'pythonw'
     
     # Define the path to the Start Menu

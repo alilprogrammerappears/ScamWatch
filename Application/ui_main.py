@@ -22,7 +22,7 @@ class ScamWatchApp:
     def __init__(self, root, username):
         self.root = root
         self.root.title("ScamWatch")
-        self.root.geometry("800x700")  # Adjusted window size to fit all elements
+        self.root.geometry("800x700")
 
         # Set theme
         self.style = ttk.Style()
@@ -107,7 +107,7 @@ class ScamWatchApp:
     def open_settings(self):
         # Functionality to open settings screen
         settings_window = tk.Toplevel(self.root)
-        current_user_id = 1  # Replace with actual user ID obtained after login
+        current_user_id = 1
         app = SettingsScreen(settings_window, current_user_id=current_user_id)
 
     def open_learn_more(self):

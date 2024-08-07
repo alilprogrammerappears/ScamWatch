@@ -15,7 +15,6 @@ def send_alert_email(trusted_contact_email):
             scamwatch_password = config.get("scamwatch_password")
             email_subject = config.get("subject")
             email_message = config.get("message_body")
-        # return scamwatch_email, scamwatch_password, email_subject, email_message
     except FileNotFoundError:
         logging.info("Configuration file not found.")
     except json.JSONDecodeError:

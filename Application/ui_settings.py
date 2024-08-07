@@ -5,7 +5,7 @@ import os
 import subprocess
 from process_blocking import one_time_connection
 import logging
-from dbconnect import get_trusted_emails
+import re
 
 # Set up log file
 log_file = 'ScamWatch.log'
@@ -16,6 +16,7 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)s: %(message)s'
 )
 
+# set logging output from pillow to only be warnings instead of logging EVERYTHING
 logging.getLogger('PIL').setLevel(logging.WARNING)
 
 class AddTrustedUserDialog(simpledialog.Dialog):
@@ -45,6 +46,11 @@ class AddTrustedUserDialog(simpledialog.Dialog):
         self.phone = self.phone_entry.get()
         self.email = self.email_entry.get()
 
+         # Validate email format
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", self.email):
+            messagebox.showerror("Invalid Email", "Please enter a valid email address.")
+            return
+
         # Connect to the database and insert the trusted user information
         try:
             connection = mysql.connector.connect(
@@ -62,6 +68,15 @@ class AddTrustedUserDialog(simpledialog.Dialog):
             cursor.close()
             connection.close()
             messagebox.showinfo("Info", "Trusted user added successfully!")
+
+            file_path = 'trusted_contact_email.txt'
+            try:
+                with open(file_path, 'w') as file:
+                    file.write(self.email + '\n')
+                logging.info(f"Trusted contact email: {self.email} written to {file_path}")
+            except Exception as e:
+                logging.error(f"Failed to write trusted contact email to file: {e}")
+
         except mysql.connector.Error as err:
             messagebox.showerror("Error", f"Error adding trusted user: {err}")
             logging.error(f"Error adding trusted user: {err}")
@@ -180,6 +195,6 @@ class SettingsScreen:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    current_user_id = 1  # Replace with actual user ID obtained after login
+    current_user_id = 1
     app = SettingsScreen(root, current_user_id=current_user_id)
     root.mainloop()
